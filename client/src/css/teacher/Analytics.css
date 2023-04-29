@@ -1,0 +1,93 @@
+.analytics-main-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2%;
+}
+.analytics-container{
+    border: solid 1px;
+    width: 65%;
+    margin-top: 5%;
+}
+
+.analytics-header-navigation{
+    padding: 2%;
+    display: flex;
+    flex-direction: row;
+}
+
+.analytics-header-navigation > div{
+    width: 50%;
+    text-align: center;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.analytics-header-navigation > div:hover{
+    border: solid 1px;
+}
+
+.list-of-students-action{
+    margin-top: 2%;
+    display: flex;
+    flex-direction: row;
+    font-size: 1.5rem;
+}
+
+.list-of-students-action > div{
+    width: 50%;
+}
+
+.analytics-search-student{
+    margin-left: 2%;
+}
+
+.analytics-enroll-student{
+    text-align: right;
+    margin-right: 2%;
+}
+
+.Owner{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Owner p{
+    font-size: 1.5rem;
+    width: 97%;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.Owner p:hover{
+    border: solid 1px;
+}
+
+.data-analytics-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.data-analytics-container > div{
+    width: 50%;
+    border: solid 1px;
+    margin: 1%;
+}
+
+.user-type-demo-sub-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.user-type-demo-sub-container > div{
+    width: 33%;
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+
+.user-type-demographics h3{
+    margin-left: 2%;
+}

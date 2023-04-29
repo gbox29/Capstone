@@ -1,0 +1,36 @@
+.AcModal-wrap{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.AcModal-wrap input[type=text]{
+    height: 30px;
+    width: 98%;
+}
+
+.exit-button{
+    text-align: right;
+}
+
+#chapter-name{
+    width: 100%;
+}
+
+#chapter-number{
+    width: 25px;
+    margin-left: 10px;
+}
+
+.chapter-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+#chap-desc{
+    width: 98%;
+    height: 50%;
+}
+

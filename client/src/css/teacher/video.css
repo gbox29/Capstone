@@ -1,0 +1,198 @@
+.vid-container{
+    display: flex;
+    flex-direction: row;
+    border: solid 1px;
+    padding: 5%;
+}
+
+/*.vid-container > div{
+    border: solid 1px;
+}*/
+
+.main{
+    width: 85%;
+    text-align: center;
+}
+
+.vid-title{
+    text-align: left;
+    margin-left: 2%;
+}
+
+.next{
+    width: 15%;
+
+}
+
+.feedback{
+    width: 95%;
+    padding-top: 5%;
+}
+
+
+.ratings {
+    display: flex;
+    flex-direction: row;
+    border: solid 1px;
+    padding: 1% 0%;
+}
+
+
+
+.overall{
+    width: 20%;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.overall-rating{
+    color: #FDB931;
+}
+
+
+
+.stars{
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+}
+
+.percent{
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+}
+
+.horizontal-div{
+    width: 82%;
+    display: flex;
+    flex-direction: column;
+    padding-right: 2%;
+}
+
+.rating-width{
+    height: 11%;
+    margin-top: 1%;
+    border: solid 1px;
+}
+
+.rate-div{
+    height: 100%;
+    background-color: grey;
+}
+
+.rate-border{
+    border: none;
+    padding-top: 3%;
+    padding-left: 10%;
+    margin-top: 3.8%;
+}
+
+.add-feedback{
+    display: flex;
+    flex-direction: row;
+    margin-top: 2%;
+}
+
+.users-feedback{
+    flex-direction: column;
+}
+
+.feedback-container{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2%;
+}
+
+
+
+.feedback-pic{
+    width: 4%;
+    padding: 1%;
+}
+
+.comment{
+    display: flex;
+    flex-direction: column;
+    width: 96%;
+
+}
+
+
+.input-comment textarea{
+    width: 99%;
+    height: 50px;
+    resize: none;
+}
+
+.add-comment{
+    display: flex;
+    flex-direction: row;
+}
+
+.add-comment > div{
+    width: 50%;
+}
+
+.enter{
+    text-align: right;
+}
+
+.user-info{
+    display: flex;
+    flex-direction: row;
+}
+
+.user-info{
+    margin-top: 1%;
+
+}
+
+.user-info > div{
+    margin-right: 1%;
+    font-size: 1rem;
+
+    height: 25px;
+}
+
+.username{
+    width: 10%;
+}
+
+.comment-date{
+    width: 85%;
+
+}
+
+.recommendations{
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.recommendations:hover{
+    background-color: #F0F0F0;
+}
+
+.recommendations p {
+    font-size: 1.2rem;
+}
+
+.user-feedback{
+    width: 100%;
+    text-align: justify;
+}
+
+.rating-quiz-button{
+    display: flex;
+    flex-direction: row;
+}
+
+.rating-quiz-button h2{
+    width: 90%;
+}
+
+.rating-quiz-button button{
+    text-align: end;
+    width: 10%;
+}

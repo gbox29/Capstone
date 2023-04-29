@@ -1,0 +1,84 @@
+.contact {
+  padding: 0%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-bottom: 100px;
+}
+.contact-wrap {
+  display: flex;
+}
+.contact-wrap > div {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.contact-list {
+  display: block;
+  font-size: 3rem;
+  margin-top: 5%;
+}
+.contact-list > div {
+  font-size: 1rem;
+  margin-left: 10%;
+}
+.list-logo {
+  height: 30px;
+  width: 30px;
+}
+.form-wrap {
+  width: 100%;
+  font-size: 3rem;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.input-form {
+  width: 80%;
+  height: 50px;
+  border: solid 1px;
+}
+.textarea-form {
+  height: 70px;
+  margin-top: 4%;
+  margin-bottom: 0%;
+}
+
+.btn-form {
+  width: 30%;
+  height: 10%;
+  background: #6e6d70;
+  color: white;
+  cursor: pointer;
+}
+
+@media all and (max-width: 1024px) {
+  .contact-wrap {
+    flex-wrap: wrap;
+    justify-content: center12;
+  }
+  .form-wrap > div {
+    margin: 0 auto;
+  }
+  .input-form {
+    border: solid 1px;
+    width: 100%;
+  }
+  .btn-form {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+@media all and (max-width: 450px) {
+  .contact-list {
+    font-size: 2rem;
+    margin-bottom: 20%;
+  }
+  .list-logo {
+    height: 20px;
+    width: 20px;
+  }
+}

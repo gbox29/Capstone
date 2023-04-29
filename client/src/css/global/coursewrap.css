@@ -1,0 +1,63 @@
+.add-course{
+    margin: 2% 5%;
+    text-align: right;
+}
+.course-wrap{
+    margin: 3% 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+}
+
+.course-info{
+    border: solid 1px;
+    border-radius: 10px;
+    height: 250px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.c-info-one{
+    height: 10%;
+    text-align: right;
+}
+
+.c-info-two{
+    height: 60%;
+    display: flex;
+    justify-content: center;
+}
+
+.c-info-two-img{
+    width: 50%;
+}
+
+img {
+    object-fit: fill;
+    width: 100%;
+    height: 100%;
+}
+
+
+.c-info-three{
+    height: 30%;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+
+@media all and (max-width: 1024px){
+    .course-wrap{
+        justify-content: center;
+    }
+}
+
+@media all and (max-width: 768px){
+    .course-info{
+        width: 100%;
+    }
+}

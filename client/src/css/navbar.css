@@ -1,0 +1,59 @@
+a {
+  text-decoration: none;
+}
+
+ul {
+  margin-top: 25px;
+}
+
+li {
+  display: inline;
+  font-size: 1.4rem;
+}
+
+.nav-link {
+  float: right;
+  margin-right: 50px;
+}
+
+.navigation-bar {
+  height: 100%;
+  width: 100%;
+}
+#red-span {
+  color: #ff0000;
+}
+#list-hide {
+  display: none;
+}
+
+@media all and (min-width: 1025px) {
+  .expand-toggle {
+    display: none;
+  }
+}
+
+@media all and (max-width: 1024px) {
+  /* smartphones, iPhone, portrait 480x320 phones */
+  li {
+    cursor: pointer;
+  }
+  #list-hide {
+    display: block;
+  }
+  .nav-link-right {
+    display: none;
+  }
+  .expand-toggle {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .expand-nav {
+    display: block;
+    margin-right: 10%;
+    padding: 20px;
+  }
+  .expand-nav:hover {
+    color: green;
+  }
+}

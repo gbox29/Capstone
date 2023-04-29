@@ -1,0 +1,69 @@
+.quiz-question-container{
+  display: flex;
+  flex-direction: row;
+}
+
+
+.questions-container{
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.q-container{
+  width: 80%;
+  margin-top: 10%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+.question-container textarea{
+    height: 100px;
+}
+
+.questions-answers{
+  width: 70%;
+}
+
+.submit-container{
+  margin-top: 2%;
+  float: right;
+  margin-bottom: 5%;
+}
+
+.questions-answers-container{
+
+  width: 80%;
+  margin: auto;
+  margin-top: 9%;
+  display: flex;
+  flex-direction: column;
+}
+
+.questions-ans ul{
+  display: flex;
+  flex-direction: column;
+  padding: 0%;
+}
+
+.question-dropdown-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.question-container-ans{
+  width: 90%;
+}
+
+.deleteAllQuestion{
+  float: right;
+}
+
+
+textarea {
+  resize: none;
+  width: 95%;
+}

@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+.container {
+  padding: 3% 10%;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 3% 5%;
+  }
+}
+
+@media (max-width: 320px) {
+  .container {
+    padding: 3% 0%;
+  }
+}
+
+/*@media (max-width: 300px) {
+  .container > div {
+    display: none;
+  }
+}
+@media (max-width: 320px) {
+  .container {
+    height: 800px;
+  }
+}*/

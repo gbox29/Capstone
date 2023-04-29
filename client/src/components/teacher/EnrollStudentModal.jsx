@@ -1,0 +1,74 @@
+import {useState} from "react";
+import Axios from "axios";
+import Button from '@mui/material/Button';
+import StudentFound from "./StudentFound";
+
+export default function EnrollStudentModal(props){
+
+    const [student, setStudent] = useState();
+    const [fetchStudent, setFetchStudent] = useState([]);
+
+    const searchStudents = (e) => {
+        setStudent(e.target.value);
+      };
+
+    const search = () => {
+        const fetchStudents = async () => {
+            try {
+              const response = await Axios.get(
+                "http://localhost:5000/api/user/searchStudent",
+                {
+                  params: {
+                    student: student,
+                  },
+                }
+              );
+              setFetchStudent(response.data.result);
+  
+            } catch (error) {
+              console.log(error);
+            }
+        };
+        fetchStudents();
+    }
+
+    const fetch = (data) => {
+        //console.log("function is called");
+        return (
+            <StudentFound 
+                key = {data.id}
+                id = {data.id}
+                lessonId = {props.lessonId}
+                firstname = {data.firstname}
+                lastname = {data.lastname}
+            />
+        )
+    }
+
+    return (
+        <>
+            <div className="add-student-modal">
+                {props.lessonId}
+                <h2>Add a student</h2>
+                <div className="search-student-wrap-modal">
+                    <input 
+                        type="text" 
+                        placeholder="Search here"
+                        onChange={searchStudents}
+                    />
+                    <Button variant="contained" onClick={search}>Search</Button>
+                </div>
+                <div className="student-list-modal">
+                    {fetchStudent.length > 0 && fetchStudent.map(fetch)}
+                </div>
+                <div className="student-list-btn-modal">
+                    <Button variant="outlined"
+                    onClick={props.skip}
+                    >
+                        Skip
+                    </Button>
+                </div>
+            </div>
+        </>
+    );
+}

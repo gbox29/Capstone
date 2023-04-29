@@ -1,0 +1,26 @@
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+  padding-bottom: 150px;
+  height: 300px;
+}
+
+.auth-form input {
+  margin-bottom: 1%;
+  height: 50px;
+  border: solid 1px;
+  width: 245px;
+}
+
+.auth-form button {
+  height: 50px;
+  border: solid 1px;
+  width: 250px;
+  cursor: pointer;
+}
+
+.click-register{
+  cursor: pointer;
+}
