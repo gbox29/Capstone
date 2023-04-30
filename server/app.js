@@ -246,19 +246,20 @@ app.delete("/logout", (req,res)=> {
 
 app.get("/api/user/searchStudent",(req,res) => {
   const data = req.query.student;
+  const kindofuser = "student";
   //console.log(data);
 
 
   if(req.session.user){
-    const statement = "SELECT * FROM user_profile WHERE email = ? OR firstname = ? OR lastname = ? or (firstname = ? and lastname = ?) ";
-    database.query(statement,[data,data,data,data.split(" ")[0], data.split(" ")[1]],(err,result)=>{
+    const statement = "SELECT * FROM user_profile WHERE (email = ? OR firstname = ? OR lastname = ? or (firstname = ? and lastname = ?)) AND kindofuser = ? ";
+    database.query(statement,[data,data,data,data.split(" ")[0], data.split(" ")[1],kindofuser],(err,result)=>{
       if(err){
         res.send({message:err});
       }
       if(result.length > 0){
         res.send({result:result});
       } else {
-        console.log("no result found");
+        res.send({message: "no result found"});
       }
     });
   } else {
@@ -272,14 +273,26 @@ app.post("/api/user/enrollStudent", (req,res) => {
   const date = new Date();
 
   if(req.session.user){
-    const statement = "INSERT INTO tb_enroll (user_id, lesson_id, date_enrolled) VALUES (?,?,?)";
-    database.query(statement,[studentId,lessonId,date],(err,result)=> {
-      if(err) {
+    const statementChecker = "SELECT * FROM user_enrolled WHERE user_id = ? AND lesson_id = ?";
+    database.query(statementChecker, [studentId, lessonId], (error, response) => {
+      if(error) {
         res.send({message: err})
-      } else {
-        res.send({message: "User enrolled succesfully"});
-        console.log("user enrolled succesfully");
       }
+
+      if(response.length > 0) {
+        res.send({checker: false});
+      } else {
+        const statement = "INSERT INTO tb_enroll (user_id, lesson_id, date_enrolled) VALUES (?,?,?)";
+        database.query(statement,[studentId,lessonId,date],(err,result)=> {
+          if(err) {
+            res.send({message: err})
+          } else {
+            res.send({message: "User enrolled succesfully"});
+            console.log("user enrolled succesfully");
+          }
+        })
+      }
+
     })
   } else {
     res.send({message: "User must login"});

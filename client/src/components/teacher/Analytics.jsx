@@ -6,7 +6,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import TableMaterial from "./TableMaterial";
 import LineChart from "./LineChart";
+import EnrollStudentModal from "./EnrollStudentModal";
 import "../../css/teacher/Analytics.css";
+import "../../css/teacher/modal.css";
 
 export default function Analytics(){
     const location = useLocation();
@@ -22,6 +24,7 @@ export default function Analytics(){
     const [fetchStudentList, setFetchStudentList] = useState([]);
     const [fetchOwner, setFetchOwner] = useState([]);
 
+    const [modal, setModal] = useState(false)
     
     Axios.defaults.withCredentials = true;
 
@@ -39,6 +42,13 @@ export default function Analytics(){
         }
     }
 
+    const showModal = () => {
+        setModal(!modal);
+    }
+
+    const skip = () => {
+        setModal(false);
+    }
 
     const expandOwner = () => {
         setExpandOwnerDiv(!expandOwnerDiv);
@@ -108,7 +118,7 @@ export default function Analytics(){
                                 <TextField id="outlined-basic" label="Search" variant="outlined" />
                             </div>
                             <div className="analytics-enroll-student">
-                                <Button>Add a member</Button>
+                                <Button onClick={showModal}>Add a member</Button>
                             </div>
                         </div>
 
@@ -182,6 +192,18 @@ export default function Analytics(){
                         </>
                     )}
                 </div>
+                {modal && (
+                    <div className="modal">
+                        <div className="overlay">
+                            <div className="modal-content">
+                                <EnrollStudentModal
+                                    skip = {skip} 
+                                    lessonId = {lessonId}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     )

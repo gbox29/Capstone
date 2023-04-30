@@ -83,7 +83,7 @@ export default function BasicTable(props) {
                         removeUser(row.user_id);
                       }}>Remove</Button></TableCell>
                     </TableRow>
-                  ))};
+                  ))}
             </>
           )}
         </TableBody>

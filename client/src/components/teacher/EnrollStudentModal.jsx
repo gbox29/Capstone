@@ -23,7 +23,11 @@ export default function EnrollStudentModal(props){
                   },
                 }
               );
-              setFetchStudent(response.data.result);
+              if(response.data.message) {
+                setFetchStudent("");
+              } else {
+                setFetchStudent(response.data.result);
+              }
   
             } catch (error) {
               console.log(error);
@@ -39,6 +43,7 @@ export default function EnrollStudentModal(props){
                 key = {data.id}
                 id = {data.id}
                 lessonId = {props.lessonId}
+                email = {data.email}
                 firstname = {data.firstname}
                 lastname = {data.lastname}
             />
