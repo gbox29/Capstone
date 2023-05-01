@@ -697,6 +697,31 @@ app.delete("/api/user/userRemove", (req,res)=> {
   }
 });
 
+
+app.get("/api/user/searchEnrolledStudent",(req,res) => {
+  const data = req.query.data;
+  const kindofuser = "student";
+  const lessonId = req.query.lessonId;
+  console.log(data);
+
+
+  if(req.session.user){
+    const statement = "SELECT * FROM user_enrolled WHERE (firstname = ? OR lastname = ? or (firstname = ? and lastname = ?)) AND kindofuser = ? AND lesson_id = ?";
+    database.query(statement,[data,data,data.split(" ")[0], data.split(" ")[1],kindofuser,lessonId],(err,result)=>{
+      if(err){
+        res.send({message:err});
+      }
+      if(result.length > 0){
+        res.send({result:result});
+      } else {
+        res.send({message: "no result found"});
+      }
+    });
+  } else {
+    res.send({message: "User must login"});
+  }
+});
+
 app.listen(port, () => {
   console.log("running server");
 });

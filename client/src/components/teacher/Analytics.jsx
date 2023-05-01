@@ -25,6 +25,11 @@ export default function Analytics(){
     const [fetchOwner, setFetchOwner] = useState([]);
 
     const [modal, setModal] = useState(false)
+
+    const [search, setSearch] = useState("");
+    const [stopSearch, setStopSearch] = useState(false);
+    const [studentFound, searchStudentFound] = useState([]);
+    //console.log(studentFound);
     
     Axios.defaults.withCredentials = true;
 
@@ -94,6 +99,34 @@ export default function Analytics(){
         });
     },[fetchStudentList])
 
+    const HandleSearch = (event) => {
+        setSearch(event.target.value);
+    }
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            // Perform action when user stops typing
+            Axios.get("http://localhost:5000/api/user/searchEnrolledStudent", {
+            params: {
+                data : search,
+                lessonId: lessonIdRef.current,
+              }            
+            }).then((response) => {
+                if(!response.data.message) {
+                    searchStudentFound(response.data.result)
+                    setStopSearch(true)      
+                } else {
+                    setStopSearch(false);
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+            console.log("User stopped typing.");
+        }, 500); // Wait for 500ms before triggering action
+      
+        return () => clearTimeout(timeout);
+    }, [search]);
+    
 
 
     return(
@@ -115,7 +148,7 @@ export default function Analytics(){
                         <>
                         <div className="list-of-students-action">
                             <div className="analytics-search-student">
-                                <TextField id="outlined-basic" label="Search" variant="outlined" />
+                                <TextField id="outlined-basic" label="Search Student" variant="outlined" onChange={HandleSearch} />
                             </div>
                             <div className="analytics-enroll-student">
                                 <Button onClick={showModal}>Add a member</Button>
@@ -133,15 +166,30 @@ export default function Analytics(){
                                 )}
                             </div>
                             <div className="Owner">
-                                <p onClick={expandStudentList}>Student's Lists ({fetchStudentList.length})</p>
-                                    {expandStudentListDiv && (
+                                {stopSearch ? (
+                                    // code to execute if true
+                                    <>
+
                                         <TableMaterial 
-                                            fetchStudentList={fetchStudentList}
-                                            lessonId = {location.state.lessonId}
-                                            setExpandStudentListDiv = {setExpandStudentListDiv}
-                                            boolExpandStudent = {true}
+                                                fetchStudentList={studentFound}
+                                                lessonId = {location.state.lessonId}
+                                                setExpandStudentListDiv = {setExpandStudentListDiv}
+                                                boolExpandStudent = {true}
                                         />
-                                    )}
+                                    </>
+                                ) : (
+                                    <>
+                                        <p onClick={expandStudentList}>Student's Lists ({fetchStudentList.length})</p>
+                                        {expandStudentListDiv && (
+                                            <TableMaterial 
+                                                fetchStudentList={fetchStudentList}
+                                                lessonId = {location.state.lessonId}
+                                                setExpandStudentListDiv = {setExpandStudentListDiv}
+                                                boolExpandStudent = {true}
+                                            />
+                                        )}
+                                    </>
+                                )}
                             </div>
                         </div>
                         </>
