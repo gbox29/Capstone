@@ -22,15 +22,21 @@ export default function Analytics(){
     const [expandStudentListDiv, setExpandStudentListDiv] = useState(false)
 
     const [fetchStudentList, setFetchStudentList] = useState([]);
+    const [genderCount, setGenderCount] = useState({ maleCount: 0, femaleCount: 0 });
     const [fetchOwner, setFetchOwner] = useState([]);
+
+    const [chapter, setChapter] = useState([]);
+    const [ratings, setRatings] = useState([]);
+    const [quiz, setQuiz] = useState([]);
 
     const [modal, setModal] = useState(false)
 
     const [search, setSearch] = useState("");
     const [stopSearch, setStopSearch] = useState(false);
     const [studentFound, searchStudentFound] = useState([]);
-    //console.log(studentFound);
-    
+
+
+
     Axios.defaults.withCredentials = true;
 
     const showStudentList = () => {
@@ -77,7 +83,9 @@ export default function Analytics(){
                 kindofuser : "student"
               }            
         }).then((response) => {
+            //console.log(response);
             if(!response.data.message) {
+                setGenderCount({ maleCount: response.data.maleCount, femaleCount: response.data.femaleCount });
                 setFetchStudentList(response.data.result)         
             }
         }).catch((error) => {
@@ -128,7 +136,59 @@ export default function Analytics(){
     }, [search]);
     
 
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            // Perform action when user stops typing
+            Axios.get("http://localhost:5000/api/user/fetchChapter", {
+            params: {
+                tb_lessonId: lessonIdRef.current,
+              }            
+            }).then((response) => {
+                if(!response.data.message) {
+                    setChapter(response.data.result)  
+                } 
+            }).catch((error) => {
+                console.log(error);
+            });
+        }, 500); // Wait for 500ms before triggering action
+        return () => clearTimeout(timeout);
+    }, [chapter]);
 
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            // Perform action when user stops typing
+            Axios.get("http://localhost:5000/api/user/fetchUserComments", {
+            params: {
+                lessonId: lessonIdRef.current,
+              }            
+            }).then((response) => {
+                if(!response.data.message) {
+                    setRatings(response.data.result)  
+                } 
+            }).catch((error) => {
+                console.log(error);
+            });
+        }, 500); // Wait for 500ms before triggering action
+        return () => clearTimeout(timeout);
+    }, [ratings]);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            // Perform action when user stops typing
+            Axios.get("http://localhost:5000/api/user/fetchUserAllQuizzes", {
+            params: {
+                lessonId: lessonIdRef.current,
+              }            
+            }).then((response) => {
+                if(!response.data.message) {
+                    setQuiz(response.data.result)  
+                } 
+            }).catch((error) => {
+                console.log(error);
+            });
+        }, 500); // Wait for 500ms before triggering action
+        return () => clearTimeout(timeout);
+    }, [quiz]);
     return(
         <>
             <UserNavBar />
@@ -203,16 +263,16 @@ export default function Analytics(){
                                     <h3>Summary</h3>
                                     <div className="user-type-demo-sub-container">
                                         <div className="total-demographics">
-                                            <p>6</p>
-                                            Total users
+                                            <p>{genderCount.maleCount + genderCount.femaleCount}</p>
+                                            Total Users
                                         </div>
                                         <div className="user-teacher">
-                                            <p>1</p>
-                                            Total teacher
+                                            <p>{genderCount.maleCount}</p>
+                                            Male
                                         </div>
                                         <div className="user-student">
-                                            <p>2</p>
-                                            Total student
+                                            <p>{genderCount.femaleCount}</p>
+                                            Female
                                         </div>
                                     </div>
                                 </div>
@@ -221,22 +281,24 @@ export default function Analytics(){
                                     <h3 style={{marginLeft: 10}}>Engagement</h3>
                                         <div className="user-type-demo-sub-container">
                                             <div className="total-demographics">
-                                                <p>3</p>
+                                                <p>{chapter.length}</p>
                                                 Chapters
                                             </div>
                                             <div className="user-teacher">
-                                                <p>10</p>
+                                                <p>{ratings.length}</p>
                                                 Reactions
                                             </div>
                                             <div className="user-student">
-                                                <p>3</p>
+                                                <p>{quiz.length}</p>
                                                 Quiz
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <LineChart/>
+                                <LineChart 
+                                    lessonId = {lessonIdRef.current}
+                                />
                         </>
                     )}
                 </div>

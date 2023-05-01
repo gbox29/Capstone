@@ -16,6 +16,7 @@ export default function StudentAccordion() {
   const [lessonIdState, setLessonIdState] = useState(location.state.lessonId)
   const lessonIdRef = useRef(lessonIdState);
 
+
   const toggleModal = () => {
     setModal(!modal);
   }
@@ -56,7 +57,9 @@ export default function StudentAccordion() {
         chapter_number = {data.chapter_number}
         desc = {data.description}
         vid = {data.url}
-        date = {data.date_uploaded}
+        month = {data.month}
+        day = {data.day}
+        year = {data.year}
         lessonId = {location.state.lessonId}
         kindofuser = {location.state.kindofuser}
       />

@@ -187,11 +187,17 @@ app.post("/api/user/addChapter", (req,res) => {
     const description = req.body.description;
     const url = req.body.url;
     const rating = 0;
-    const date = new Date();
+    const d = new Date();
 
-    const statement = "INSERT INTO tb_chapter (tbLesson_id, chapter_name, chapter_number, description, url, rating ,date_uploaded) VALUES (?,?,?,?,?,?,?)";
+    const currentMonth = months[d.getMonth()];	// Month	[mm]	(1 - 12)
+    let day = d.getDate();		// Day		[dd]	(1 - 31)
+    let year =d.getFullYear();
 
-    database.query(statement, [tb_lessonId,chapter_name,chapter_number,description,url,rating,date], 
+    console.log("/api/user/addChapter")
+
+    const statement = "INSERT INTO tb_chapter (tbLesson_id, chapter_name, chapter_number, description, url, rating ,month,day,year) VALUES (?,?,?,?,?,?,?,?,?)";
+
+    database.query(statement, [tb_lessonId,chapter_name,chapter_number,description,url,rating,currentMonth,day,year], 
       (err, result) => {
         if(err){
           res.send({message:err});
@@ -322,11 +328,15 @@ app.post("/api/user/rateChapter", (req,res) => {
     const chapter_id = req.body.chapter_id;
     const comment = req.body.comment;
     const rating = req.body.rating;
-    const date = new Date();
+    const d = new Date();
+    const currentMonth = months[d.getMonth()];	// Month	[mm]	(1 - 12)
+    let day = d.getDate();		// Day		[dd]	(1 - 31)
+    let year =d.getFullYear();
+
     //console.log(chapter_id, + " " + userId + " " + rating + " " + date);
     if(req.session.user){
-      const statement = "INSERT INTO tb_rate (chapter_id, user_id, comment, rate, date) VALUES (?,?,?,?,?)"
-      database.query(statement,[chapter_id,userId,comment,rating,date], (err, result) => {
+      const statement = "INSERT INTO tb_rate (chapter_id, user_id, comment, rate, month, day, year) VALUES (?,?,?,?,?,?,?)"
+      database.query(statement,[chapter_id,userId,comment,rating,currentMonth, day, year], (err, result) => {
         if(err) {
           res.send({message: err})
         } else {
@@ -643,6 +653,9 @@ app.put("/api/user/editQuestion", (req, res) => {
 app.get("/api/user/userEnrolled",(req,res) => {
   lessonId = req.query.lessonId;
   kindofuser = req.query.kindofuser;
+
+  let male = 0;
+  let female = 0;
   if(req.session.user) {
     const statement = "SELECT * FROM user_enrolled WHERE lesson_id = ? AND kindofuser = ?";
     database.query(statement,[lessonId, kindofuser], (err,result) => {
@@ -650,7 +663,14 @@ app.get("/api/user/userEnrolled",(req,res) => {
         res.send({message: err})
       }
       if(result.length > 0){
-        res.send({result : result});
+        for(let i = 0; i<result.length; i++){
+            if(result[0].gender === "Male") {
+              male+=1;
+            } else {
+              female+=1;
+            }
+        }
+        res.send({result : result, maleCount : male, femaleCount : female});
       }else{
         res.send({message: "No lesson found"});
       }
@@ -708,6 +728,47 @@ app.get("/api/user/searchEnrolledStudent",(req,res) => {
   if(req.session.user){
     const statement = "SELECT * FROM user_enrolled WHERE (firstname = ? OR lastname = ? or (firstname = ? and lastname = ?)) AND kindofuser = ? AND lesson_id = ?";
     database.query(statement,[data,data,data.split(" ")[0], data.split(" ")[1],kindofuser,lessonId],(err,result)=>{
+      if(err){
+        res.send({message:err});
+      }
+      if(result.length > 0){
+        res.send({result:result});
+      } else {
+        res.send({message: "no result found"});
+      }
+    });
+  } else {
+    res.send({message: "User must login"});
+  }
+});
+
+
+app.get("/api/user/fetchUserComments",(req,res) => {
+  const lessonId = req.query.lessonId;
+
+  if(req.session.user){
+    const statement = "SELECT * FROM user_comments WHERE lesson_id = ?";
+    database.query(statement,[lessonId],(err,result)=>{
+      if(err){
+        res.send({message:err});
+      }
+      if(result.length > 0){
+        res.send({result:result});
+      } else {
+        res.send({message: "no result found"});
+      }
+    });
+  } else {
+    res.send({message: "User must login"});
+  }
+});
+
+app.get("/api/user/fetchUserAllQuizzes",(req,res) => {
+  const lessonId = req.query.lessonId;
+
+  if(req.session.user){
+    const statement = "SELECT * FROM user_quizzes WHERE lesson_id = ?";
+    database.query(statement,[lessonId],(err,result)=>{
       if(err){
         res.send({message:err});
       }

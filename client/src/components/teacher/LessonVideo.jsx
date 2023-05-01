@@ -136,7 +136,9 @@ export default function LessonVideo(){
                 lastname = {data.lastname}
                 comment = {data.comment}
                 rate = {data.rate}
-                date = {data.date}
+                month = {data.month}
+                day = {data.day}
+                year = {data.year}
             />
         );
     }
@@ -150,7 +152,9 @@ export default function LessonVideo(){
                 chapter_number = {data.chapter_number}
                 desc = {data.description}
                 vid = {data.url}
-                date = {data.date_uploaded}
+                month = {data.month}
+                day = {data.day}
+                year = {data.year}
                 ratingValue = {data.rating}
                 lessonId = {location.state.lessonId}
             />
@@ -185,7 +189,7 @@ export default function LessonVideo(){
                         {/*Chapter {location.state.chapter_number} {location.state.chapter_name}*/}
                         
                     </h1>
-                    <p className="vid-title">{location.state.date}</p>
+                    <p className="vid-title">{location.state.month} / {location.state.day} / {location.state.year}</p>
                     <p className="vid-title">{/*{location.state.desc}*/} {location.state.desc}</p>
 
                     <div className="vid-title feedback">

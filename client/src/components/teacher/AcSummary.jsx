@@ -22,7 +22,9 @@ export default function AcSummary(props={}){
                   chapter_name: props.chapter_name,
                   desc: props.desc,
                   vid : props.vid,
-                  date : props.date,
+                  month : props.month,
+                  day : props.day,
+                  year: props.year,
                   lessonId : props.lessonId
                 }});
     }

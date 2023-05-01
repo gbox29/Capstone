@@ -77,7 +77,7 @@ export default function UserReactions(props){
                                 <div className="input-comment">
                                     <div className="user-info">
                                         <div className="username">{props.firstname} {props.lastname}</div>
-                                        <div className="comment-date">{props.date}</div>
+                                        <div className="comment-date">{props.month} / {props.day} / {props.year}</div>
                                         <div className="put-del-comment">
                                             <IconButton
                                                 aria-label="more"
