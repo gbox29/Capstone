@@ -539,7 +539,7 @@ app.get("/api/user/fetchQuiz", (req,res) => {
 app.post("/api/user/takeQuiz", (req,res) => {
     const chapterId = req.body.chapterId;
     const d = new Date();
-    const currentMonth = months[d.getMonth()];	// Month	[mm]	(1 - 12)
+    const currentMonth = d.getMonth();	// Month	[mm]	(1 - 12)
     let day = d.getDate();		// Day		[dd]	(1 - 31)
     let year =d.getFullYear();
 
@@ -765,7 +765,8 @@ app.get("/api/user/fetchUserComments",(req,res) => {
 
 app.get("/api/user/fetchUserAllQuizzes",(req,res) => {
   const lessonId = req.query.lessonId;
-
+  let currentMonth = 0;
+  let quizCount = [0,0,0,0,0,0,0,0,0,0,0,0]
   if(req.session.user){
     const statement = "SELECT * FROM user_quizzes WHERE lesson_id = ?";
     database.query(statement,[lessonId],(err,result)=>{
@@ -773,7 +774,21 @@ app.get("/api/user/fetchUserAllQuizzes",(req,res) => {
         res.send({message:err});
       }
       if(result.length > 0){
-        res.send({result:result});
+        for(let i=0; i<result.length; i++) {
+          currentMonth = months[result[i].month];
+          for(let j=0; j<months.length; j++){
+            switch(currentMonth) {
+              case months[j] : 
+                  quizCount[j] += 1;
+                  break;
+              default:
+                  // Do something if the month is not recognized
+                  console.log("Current month is not recognized");
+                  break;              
+            }
+          }
+        }
+        res.send({result:result, quizCount:quizCount});
       } else {
         res.send({message: "no result found"});
       }
