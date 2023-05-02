@@ -6,17 +6,31 @@ import { Line } from "react-chartjs-2";
 
 
 const LineChart = (props) => {
+  const year = new Date().getFullYear();
+  //console.log(props)
 
-  const labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   const data = {
     labels: labels,
     datasets: [
       {
-        label: "My First dataset",
+        label: "Quiz",
         backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgb(255, 99, 132)",
-        data: [0, 10, 5, 2, 20, 30, 45],
+        data: props.quizCount,
+      },
+      {
+        label: "Rating",
+        backgroundColor: "rgb(54, 162, 235)",
+        borderColor: "rgb(54, 162, 235",
+        data: props.ratingCount,
+      },
+      {
+        label: "Chapter",
+        backgroundColor: "rgb(255, 206, 86)",
+        borderColor: "rgb(255, 206, 86)",
+        data: props.chapterCount,
       },
     ],
   };
@@ -26,8 +40,9 @@ const LineChart = (props) => {
 
 
   return (
-    <div>
+    <div style={{textAlign: 'center'}}>
       <Line data={data} />
+      <h1 style={{ fontSize: '1rem' }}>{year}</h1>
     </div>
   );
 };

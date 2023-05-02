@@ -29,6 +29,10 @@ export default function Analytics(){
     const [ratings, setRatings] = useState([]);
     const [quiz, setQuiz] = useState([]);
 
+    const [chapterCount, setChapterCount] = useState([]);
+    const [ratingCount, setRatingCount] = useState([]);
+    const [quizCount, setQuizCount] = useState([]);
+
     const [modal, setModal] = useState(false)
 
     const [search, setSearch] = useState("");
@@ -145,6 +149,7 @@ export default function Analytics(){
               }            
             }).then((response) => {
                 if(!response.data.message) {
+                    setChapterCount(response.data.chapterCount)
                     setChapter(response.data.result)  
                 } 
             }).catch((error) => {
@@ -162,7 +167,9 @@ export default function Analytics(){
                 lessonId: lessonIdRef.current,
               }            
             }).then((response) => {
+                console.log(response);
                 if(!response.data.message) {
+                    setRatingCount(response.data.ratingCount)
                     setRatings(response.data.result)  
                 } 
             }).catch((error) => {
@@ -181,6 +188,7 @@ export default function Analytics(){
               }            
             }).then((response) => {
                 if(!response.data.message) {
+                    setQuizCount(response.data.quizCount)
                     setQuiz(response.data.result)  
                 } 
             }).catch((error) => {
@@ -189,6 +197,7 @@ export default function Analytics(){
         }, 500); // Wait for 500ms before triggering action
         return () => clearTimeout(timeout);
     }, [quiz]);
+
     return(
         <>
             <UserNavBar />
@@ -298,6 +307,9 @@ export default function Analytics(){
 
                                 <LineChart 
                                     lessonId = {lessonIdRef.current}
+                                    chapterCount = {chapterCount}
+                                    ratingCount = {ratingCount}
+                                    quizCount = {quizCount} 
                                 />
                         </>
                     )}
