@@ -8,6 +8,8 @@ import AddTest from "./components/teacher/AddTest";
 import Video from "./components/teacher/LessonVideo";
 import TakeQuiz from "./components/teacher/TakeQuiz";
 import Analytics from "./components/teacher/Analytics"
+import Profile from "./components/teacher/Profile"
+
 
 export default function app() {
   return (
@@ -22,6 +24,7 @@ export default function app() {
         <Route path="user/chapter/watch/answerQuiz" element={<TakeQuiz />}/>
 
         <Route path="user/lesson/analytics" element={<Analytics />}/>
+        <Route path="user/profile" element={<Profile />} />
       </Routes>
     </>
   );

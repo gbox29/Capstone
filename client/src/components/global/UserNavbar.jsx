@@ -47,6 +47,7 @@ function MyAppBar() {
 
   const userProfile = () => {
     setAnchorElUser(null);
+    navigate("/user/profile");
   }
 
   const userLogout = () => {

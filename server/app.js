@@ -5,11 +5,25 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 
+
 const bcrypt = require("bcrypt");
 const { response } = require("express");
 const saltRounds = 10;
 
 const database = require(__dirname + '/database.js');
+
+const path = require('path');
+const multer = require("multer");
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, './images')
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + path.extname(file.originalname))
+//   }
+// })
+// const upload = multer({storage:storage})
+const upload = multer({storage:multer.memoryStorage()});
 
 const app = express();
 const port = 5000;
@@ -833,6 +847,46 @@ app.get("/api/user/fetchUserAllQuizzes",(req,res) => {
   } else {
     res.send({message: "User must login"});
   }
+});
+
+
+//profile
+app.get("/api/user/profile", (req,res) => {
+  if(req.session.user){
+    const statement = "SELECT * FROM user_profile WHERE id = ?";
+    database.query(statement,[userId], (err, result) => {
+      if(err) {
+        res.send({message: err})
+      }
+      if(result.length > 0){
+        res.send({result: result});
+      } else {
+        res.send({message: "no result found"});
+      }
+    })
+  } else {
+    res.send({message: "User must login"});
+  }
+});
+
+app.post("/api/user/uploadProfile", upload.single('image'), (req,res)=>{
+    const firstname = req.body.fname;
+    const lastname = req.body.lname;
+    const gender = req.body.gender;
+    const file = req.file.buffer.toString('base64');
+
+    if(req.session.user){
+      const statement = "INSERT into profile (user_id,firstname,lastname,gender,pic) VALUES (?,?,?,?,?)";
+      database.query(statement,[userId,firstname,lastname,gender,file], (err,result) => {
+        if(err){
+          res.send({message:err})
+        } else {
+          res.send({message: "Insert succesfully Please Refresh"})
+        }
+      })
+    } else {
+      res.send({message: "User must login"});
+    }
 });
 
 app.listen(port, () => {

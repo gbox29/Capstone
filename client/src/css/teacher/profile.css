@@ -1,0 +1,38 @@
+.profile-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 5%;
+}
+.profile-div{
+    border: solid 1px;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+}
+.profile-div > div{
+    border: solid 1px;
+}
+.profile-picture{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.profile-picture div{
+    padding-top: 10%;
+    width: 50%;
+}
+.profile-picture div > img{
+    object-fit: fill;
+}
+.user-details{
+    width: 60%;
+}
+
+.user-information{
+    display: flex;
+    flex-direction: column;
+    margin: 2%;
+}
