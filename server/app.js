@@ -696,7 +696,7 @@ app.get("/api/user/userEnrolled",(req,res) => {
       }
       if(result.length > 0){
         for(let i = 0; i<result.length; i++){
-            if(result[0].gender === "Male") {
+            if(result[i].gender === "Male") {
               male+=1;
             } else {
               female+=1;
@@ -887,6 +887,32 @@ app.post("/api/user/uploadProfile", upload.single('image'), (req,res)=>{
     } else {
       res.send({message: "User must login"});
     }
+});
+
+
+
+app.put("/api/user/editProfile", upload.single('image'), (req,res)=>{
+  const firstname = req.body.fname;
+  const lastname = req.body.lname;
+  const gender = req.body.gender;
+  let file = null;
+  
+  if (req.file) {
+    file = req.file.buffer.toString('base64');
+  }
+
+  if(req.session.user){
+    const statement = "UPDATE profile SET firstname = ? , lastname = ?, gender = ?, pic = ? WHERE user_id = ?";
+    database.query(statement,[firstname,lastname,gender,file,userId], (err,result) => {
+      if(err){
+        res.send({message:err})
+      } else {
+        res.send({message: "Updated succesfully Please Refresh"})
+      }
+    })
+  } else {
+    res.send({message: "User must login"});
+  }
 });
 
 app.listen(port, () => {

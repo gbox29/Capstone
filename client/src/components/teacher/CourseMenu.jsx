@@ -44,18 +44,21 @@ export default function CourseMenu(props){
     };
 
     const deleteLesson = () => {
-      setAnchorEl(null);
-      Axios.delete("http://localhost:5000/api/user/delete", {
-        params: {
-          lessonId : props.lessonId
-        }
-      }).then((response) => {
-        if(response) {
-          alert("Deleted Succesfully");
-        }
-      }).catch((error) => {
-        console.log(error);
-      })
+      const result = window.confirm('Do you want to continue?');
+      if (result) {
+        setAnchorEl(null);
+        Axios.delete("http://localhost:5000/api/user/delete", {
+          params: {
+            lessonId : props.lessonId
+          }
+        }).then((response) => {
+          if(response) {
+            alert("Deleted Succesfully");
+          }
+        }).catch((error) => {
+          console.log(error);
+        })
+      }
     };    
     
     return (

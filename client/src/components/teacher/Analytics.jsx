@@ -87,7 +87,6 @@ export default function Analytics(){
                 kindofuser : "student"
               }            
         }).then((response) => {
-            //console.log(response);
             if(!response.data.message) {
                 setGenderCount({ maleCount: response.data.maleCount, femaleCount: response.data.femaleCount });
                 setFetchStudentList(response.data.result)         
@@ -167,7 +166,6 @@ export default function Analytics(){
                 lessonId: lessonIdRef.current,
               }            
             }).then((response) => {
-                console.log(response);
                 if(!response.data.message) {
                     setRatingCount(response.data.ratingCount)
                     setRatings(response.data.result)  

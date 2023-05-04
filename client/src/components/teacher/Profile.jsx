@@ -8,10 +8,11 @@ import { MenuItem } from "@mui/material";
 
 
 export default function Profile(){
-    const [file, setFile] = useState(null);
     const [profile, setProfile] = useState([]);
+    const [file, setFile] = useState(null);
 
-    const [textCLick, setTextClick] = useState(false);
+    const [pCheck, setPCheck] = useState(false);
+    const [profCheck, setProfCheck] = useState(false);
 
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
@@ -44,12 +45,38 @@ export default function Profile(){
         }
     };
 
+    const edit = () => {
+        setPCheck(!pCheck)
+    }
+
+    const handleEdit = async () => {
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('fname', fName);
+        formData.append('lname', lName);
+        formData.append('gender', gen);
+        try {
+          const response = await Axios.put('http://localhost:5000/api/user/editProfile', 
+          formData, 
+          {
+            fname: fName,
+            lname: lName,
+            gender: gen,
+            headers: { 'Content-Type': 'multipart/form-data' }
+          });
+          alert(response.data.message);
+        } catch (error) {
+          console.error(error);
+        }
+    };
+
     useEffect(() => {
         Axios.get("http://localhost:5000/api/user/profile").then((response) => {
             //console.log(response);
             if(!response.data.message) {
                 //console.log(profile);
                 setProfile(response.data.result);
+                setProfCheck(true);
             }
         }).catch((error) => {
             console.log(error);
@@ -65,7 +92,11 @@ export default function Profile(){
                 <div className="profile-div">
                     <div className="profile-picture">
                         <div>
-                            <img src={`data:image/jpeg;base64,${profile[0]?.pic}`} alt=""/>
+                            {pCheck ? (
+                                <img src="#" alt=""/>
+                            ) :
+                                <img src={`data:image/jpeg;base64,${profile[0]?.pic}`} alt=""/>
+                            }
                         </div>
                         <div>
                             <input type="file" accept="image/*" onChange={handleFileChange} />
@@ -75,30 +106,43 @@ export default function Profile(){
                         <div className="user-information" >
                                     <TextField
                                         id="outlined-basic"
-                                        label="First Name"
                                         variant="outlined"
                                         placeholder="Enter your first name"
-                                        onClick={() => setTextClick(true)}
-                                        value={textCLick ? fName : profile[0]?.firstname || ''}
-                                        onChange={(event)=> setFName(event.target.value)}
+                                        value={pCheck === false ? profile[0]?.firstname : fName}
+                                        onChange={(event)=> 
+                                            setFName(event.target.value)
+                                        }
                                         sx={{marginTop: '10%'}}
                                     />
 
                                     <TextField
                                         id="outlined-basic"
-                                        label="Last Name"
                                         variant="outlined"
                                         placeholder="Enter your first name"
-                                        onClick={() => setTextClick(true)}
-                                        value={textCLick ? lName : profile[0]?.lastname || ''}
+                                        value={pCheck === false ? profile[0]?.lastname : lName}
                                         onChange={(event)=> setLName(event.target.value)}
                                         sx={{marginTop: '10%'}}
                                     />
 
+                                    {/* <TextField 
+                                    id="select" 
+                                    select 
+                                    placeholder="gender"
+                                    value={pCheck === false ? (profile.length > 0 ? profile[0]?.gender : "") : gen}
+                                    defaultValue={gen} 
+                                    onChange={(event) => setGen(event.target.value)} 
+                                    sx={{marginTop: '10%'}}
+                                    >
+                                    <MenuItem value="Male">Male</MenuItem>
+                                    <MenuItem value="Female">Female</MenuItem>
+                                    </TextField> */}
+
                                     <TextField 
                                     id="select" 
                                     select 
-                                    value={profile[0]?.gender || gen} 
+                                    placeholder="gender"
+                                    value={profCheck === false ? gen : (pCheck === false ? (profile.length > 0 ? profile[0]?.gender : "") : gen)} 
+                                    defaultValue={gen}
                                     onChange={(event) => setGen(event.target.value)} 
                                     sx={{marginTop: '10%'}}
                                     >
@@ -123,15 +167,19 @@ export default function Profile(){
                                     disabled={true}
                                     sx={{marginTop: '10%'}}/> 
                         </div>
-                        <Button variant="primary" type="submit" onClick={handleSubmit}>
-                            Upload
-                        </Button>
+                        {profCheck ? (
+                            <>
+                            <Button variant="primary" type="submit" onClick={edit}>Click Here To Edit</Button>
+                            {pCheck && (<Button variant="primary" type="submit" onClick={handleEdit} style={{float:'right'}}>Edit</Button>)}
+                            </>
+                        ) : (
+                            <Button variant="primary" type="submit" onClick={handleSubmit} style={{float:'right'}}>
+                                Upload
+                            </Button>
+                        )}
                     </div>
                 </div>
             </div>
-            {fName}
-            {lName}
-            {gen}
         </>
     );
 }

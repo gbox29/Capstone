@@ -7,8 +7,13 @@ import Course from "./Course";
 import Button from '@mui/material/Button';
 import EnrollStudentModal from "./EnrollStudentModal";
 
+import { useNavigate} from "react-router-dom";
+
 
 export default function Courses(){
+
+    const navigate = useNavigate();
+
     const [modal, setModal] = useState(false);
     const [nextModal, setNextModal] = useState(false);
     const location = useLocation();
@@ -89,7 +94,19 @@ export default function Courses(){
             });           
         }
         getStudentEnrolled();
-    })
+    },[studentEnrolled])
+
+    //test
+    useEffect(() => {
+        const checkProfile = () => {
+            Axios.get("http://localhost:5000/api/user/profile").then((response) => {
+                if(response.data.message){
+                    navigate("/user/profile");
+                }
+            });           
+        }
+        checkProfile();
+    },[navigate])
 
 
     const fetchData = (data) => {

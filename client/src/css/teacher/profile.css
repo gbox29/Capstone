@@ -5,14 +5,11 @@
     padding-top: 5%;
 }
 .profile-div{
-    border: solid 1px;
     width: 50%;
     display: flex;
     flex-direction: row;
 }
-.profile-div > div{
-    border: solid 1px;
-}
+
 .profile-picture{
     width: 40%;
     display: flex;
