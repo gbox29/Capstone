@@ -24,6 +24,8 @@ const multer = require("multer");
 // })
 // const upload = multer({storage:storage})
 const upload = multer({storage:multer.memoryStorage()});
+const nodemailer = require("nodemailer");
+const {EMAIL, PASSWORD} = require("./env.js");
 
 const app = express();
 const port = 5000;
@@ -54,29 +56,37 @@ app.use(
 let lessonId = 0;
 let userId = 85;
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+let gmail = "";
 
 app.post("/api/register", (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     const kindofuser = "teacher";
     const date = new Date();
-  
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-      if (err) {
-        console.log(err);
-      }
-      database.query(
-        "insert into user (email,password,kindofuser,date_registered) VALUES (?,?,?,?)",
-        [email,hash,kindofuser,date],
-        (err, result) => {
-          if (err){
-            res.send({err:err}); 
-          }else{
-            res.send("1 Row Added!");
+
+    const statement = "SELECT * FROM user WHERE email = ?";
+    database.query(statement,[email], (error,results) => {
+      if(results.length > 0) {
+        res.send({message: "Email already taken"})
+      } else {
+        bcrypt.hash(password, saltRounds, (err, hash) => {
+          if (err) {
+            console.log(err);
           }
-        }
-      );
-    });
+          database.query(
+            "insert into user (email,password,kindofuser,date_registered) VALUES (?,?,?,?)",
+            [email,hash,kindofuser,date],
+            (err, result) => {
+              if (err){
+                res.send({err:err}); 
+              }else{
+                res.send("1 Row Added!");
+              }
+            }
+          );
+        });
+      }
+    })
 });
 
 
@@ -124,6 +134,58 @@ app.post("/api/login", (req, res) => {
   })
 
 
+});
+
+app.post("/api/forgotPassword", (req, res) => {
+  gmail = req.body.gmail;
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: EMAIL,
+      pass: PASSWORD
+    }
+  });
+
+  let mailOptions = {
+    from: EMAIL,
+    to: gmail,
+    subject: 'Password Reset Request',
+    text: 'You have requested a password reset. Please click the following link to reset your password: http://localhost:3000/resetPassword',
+    html: '<p>You have requested a password reset. Please click the following link to reset your password:</p><p><a href="http://localhost:3000/auth/resetSuccess">http://localhost:3000auth/resetSuccess</a></p>'
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      res.send({message: 'Error sending email'});
+    } else {
+      console.log('Message sent: %s', info.messageId);
+      res.send({result:'Email sent successfully'});
+    }
+  });
+});
+
+app.put("/api/ResetPassword", (req,res) => {
+  const password = "123";
+  
+
+  bcrypt.hash(password, saltRounds, (err, hash) => {
+    if (err) {
+      console.log(err);
+    }
+    const statement = "UPDATE user SET password = ? WHERE email = ?";
+    database.query(
+      statement,
+      [hash,gmail],
+      (err, result) => {
+        if (err){
+          res.send({err:err}); 
+        }else{
+          res.send("1 Row Updated!");
+        }
+      }
+    );
+  });
 });
 
 /*

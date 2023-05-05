@@ -10,10 +10,13 @@ export default function Auth() {
   ]);
   const [flag,setFlag] = useState(0)
 
-  const[email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPaswword,setConfirmPassword] = useState("")
 
-  const [loginStatus, setLoginStatus] = useState("asd");
+  const [forgotPassword, setForgotPassword] = useState(false);
+
+  const [loginStatus, setLoginStatus] = useState("");
   const [kindofuser] = useState("user");
 
   Axios.defaults.withCredentials = true;
@@ -23,7 +26,9 @@ export default function Auth() {
       email:email,
       password:password
     }).then((response) => {
-      alert(response);
+        if(response.data.message){
+          alert(response.data.message);
+        }
     });
   };
 
@@ -58,16 +63,60 @@ export default function Auth() {
   
 
   const submit = (state) =>{
-    if(state){
-      login();
-    }else{
-      register();
+    if(email.length === 0 || password.length === 0) {
+      setLoginStatus("Please Input First")
+    } else {
+      if(state){
+        login();
+      }else{
+        if(password === confirmPaswword){
+          setUserIsRegistered(1);
+          register();
+        } else {
+          setLoginStatus("Make sure that password and confirm password is the same")
+        }
+      }
+    }
+  }
+
+  const forgotPass = () => {
+    setLoginStatus("");
+    setForgotPassword(!forgotPassword);
+  }
+
+  const submitEmail = () => {
+    if(email.length === 0){
+      setLoginStatus("Please dont forget to input your email")
+    } else {
+      Axios.post("http://localhost:5000/api/forgotPassword", {
+        gmail: email,
+      }).then((response) => {
+        if(response.data.result){
+          navigate("/auth/resetPassword");
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
     }
   }
 
   return (
     <div className="container auth-form">
-      <h1>{!userIsRegistered ? "Register" : "Login"}</h1>
+      {forgotPassword ? (
+        <>
+        <h4>Input your email and we will send an otp code</h4>
+          <input 
+            type="text" 
+            placeholder="email" 
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <button onClick={submitEmail}>Submit</button>
+        </>
+      ): (
+        <>
+        <h1>{!userIsRegistered ? "Register" : "Login"}</h1>
       <input 
         type="text" 
         placeholder="email" 
@@ -75,14 +124,14 @@ export default function Auth() {
           setEmail(e.target.value);
         }}/>
       <input 
-        type="text" 
+        type="password" 
         placeholder="Password" 
         onChange={(e) => {
           setPassword(e.target.value);
         }}  
       />
       {!userIsRegistered && (
-        <input type="password" placeholder="Confirm Password" />
+        <input type="password" placeholder="Confirm Password" onChange={(e) => {setConfirmPassword(e.target.value)}}/>
       )}
 
       <button type="submit" onClick={() => {
@@ -97,6 +146,9 @@ export default function Auth() {
             }}>
           {!userIsRegistered ? "Already have an account?" : "Register here!"}
       </p>
+        </>
+      )}
+      <p onClick={forgotPass} style={{cursor:'pointer'}}>Forgot password?</p>
       <p>{loginStatus}</p>
     </div>
   );

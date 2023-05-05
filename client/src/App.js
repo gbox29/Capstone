@@ -9,7 +9,8 @@ import Video from "./components/teacher/LessonVideo";
 import TakeQuiz from "./components/teacher/TakeQuiz";
 import Analytics from "./components/teacher/Analytics"
 import Profile from "./components/teacher/Profile"
-
+import Reset from "./components/authentication/Reset";
+import ConfirmReset from "./components/authentication/ConfirmReset"
 
 export default function app() {
   return (
@@ -17,6 +18,9 @@ export default function app() {
       <Routes>
         <Route path="/" element={<LandingPage />}/>
         <Route path="auth" element={<Authentication />}/>
+        <Route path="auth/resetPassword" element={<Reset />}/>
+        <Route path="auth/resetSuccess" element={<ConfirmReset />}/>
+
         <Route path="user" element={<TeacherIndex />}/>
         <Route path="user/chapter" element={<StudentMainPage />} />
         <Route path="user/chapter/addQuiz" element={<AddTest />} />
