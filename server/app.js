@@ -54,7 +54,7 @@ app.use(
 );
 
 let lessonId = 0;
-let userId = 85;
+let userId = 0;
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 let gmail = "";
 
@@ -166,26 +166,46 @@ app.post("/api/forgotPassword", (req, res) => {
 });
 
 app.put("/api/ResetPassword", (req,res) => {
-  const password = "123";
-  
-
-  bcrypt.hash(password, saltRounds, (err, hash) => {
-    if (err) {
-      console.log(err);
-    }
-    const statement = "UPDATE user SET password = ? WHERE email = ?";
-    database.query(
-      statement,
-      [hash,gmail],
-      (err, result) => {
-        if (err){
-          res.send({err:err}); 
-        }else{
-          res.send("1 Row Updated!");
-        }
+  let password = 0;
+  if(userId > 0) {
+    password = req.body.password;
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+      if (err) {
+        console.log(err);
       }
-    );
-  });
+      const statement = "UPDATE user SET password = ? WHERE id = ?";
+      database.query(
+        statement,
+        [hash,userId],
+        (err, result) => {
+          if (err){
+            res.send({err:err}); 
+          }else{
+            res.send("1 Row Updated!");
+          }
+        }
+      );
+    });
+  } else {
+    password = "123";
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+      if (err) {
+        console.log(err);
+      }
+      const statement = "UPDATE user SET password = ? WHERE email = ?";
+      database.query(
+        statement,
+        [hash,gmail],
+        (err, result) => {
+          if (err){
+            res.send({err:err}); 
+          }else{
+            res.send("1 Row Updated!");
+          }
+        }
+      );
+    });
+  }
 });
 
 /*

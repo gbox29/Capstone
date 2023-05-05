@@ -10,7 +10,8 @@ import TakeQuiz from "./components/teacher/TakeQuiz";
 import Analytics from "./components/teacher/Analytics"
 import Profile from "./components/teacher/Profile"
 import Reset from "./components/authentication/Reset";
-import ConfirmReset from "./components/authentication/ConfirmReset"
+import ConfirmReset from "./components/authentication/ConfirmReset";
+import Settings from "./components/teacher/Settings";
 
 export default function app() {
   return (
@@ -29,6 +30,7 @@ export default function app() {
 
         <Route path="user/lesson/analytics" element={<Analytics />}/>
         <Route path="user/profile" element={<Profile />} />
+        <Route path="user/settings" element={<Settings />} />
       </Routes>
     </>
   );

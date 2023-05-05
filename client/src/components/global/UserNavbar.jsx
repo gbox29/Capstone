@@ -50,6 +50,11 @@ function MyAppBar() {
     navigate("/user/profile");
   }
 
+  const setPassword = () => {
+    setAnchorElUser(null);
+    navigate("/user/settings")
+  }
+
   const userLogout = () => {
     setAnchorElUser(null);
     Axios.delete("http://localhost:5000/logout").then((response)=> {
@@ -161,6 +166,10 @@ function MyAppBar() {
 
               <MenuItem  onClick={userProfile}>
                 <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+
+              <MenuItem  onClick={setPassword}>
+                <Typography textAlign="center">Settings</Typography>
               </MenuItem>
 
               <MenuItem  onClick={userLogout}>
