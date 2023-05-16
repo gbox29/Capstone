@@ -24,6 +24,7 @@ import Profile from "./components/teacher/Profile"
 import Reset from "./components/authentication/Reset";
 import ConfirmReset from "./components/authentication/ConfirmReset";
 import Settings from "./components/teacher/Settings";
+import DoneAnswer from "./components/teacher/doneAnswer";
 
 export default function app() {
   return (
@@ -57,6 +58,9 @@ export default function app() {
         <Route path="/admin/course-list" element={<AdminPage3 />}/>
         <Route path="/admin/profile" element={<AdminProfile />}/>
         <Route path="/admin/settings" element={<AdminSettings />} />
+
+
+        <Route path="/done" element={<DoneAnswer />} />
       </Routes>
     </>
   );

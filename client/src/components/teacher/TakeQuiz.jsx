@@ -4,6 +4,7 @@ import Axios from "axios";
 import "../../css/teacher/takeQuiz.css";
 import UserNavbar from "../global/UserNavbar";
 import Button from '@mui/material/Button';
+import DoneAnswer from "./doneAnswer";
 
 export default function TakeQuiz(){
   const location = useLocation();
@@ -36,11 +37,15 @@ export default function TakeQuiz(){
 
   useEffect(() => {
     const getQuiz = () => {
-      Axios.get("https://mathflix.herokuapp.com/api/user/finishQuiz")
+      Axios.get("https://mathflix.herokuapp.com/api/user/finishQuiz", {
+        params: {
+          chapterId: chapterIdRef.current,
+        }        
+      })
       .then((response) => {
         if(!response.data.message){
-          setUserReview(response.data.result);
           setUserTakeQuiz(true);
+          userFinishQuiz();
         }
       }).catch((error) => {
         console.log(error.response);
@@ -48,7 +53,21 @@ export default function TakeQuiz(){
     }
 
     getQuiz();
-  }, [userReview])
+  }, [])
+
+  const userFinishQuiz = () => {
+    Axios.get("https://mathflix.herokuapp.com/api/user/fetchQuiz",{
+      params: {
+        chapterId: chapterIdRef.current,
+      }
+    }).then((response) => {
+      console.log("user finsih quiz: ", response.data.result);
+      setUserReview(response.data.result)
+      setData(response.data.result);
+    }).catch((error) => {
+      console.log(error.response);
+    })
+  }
 
   const userStartQuiz = () => {
     Axios.post("https://mathflix.herokuapp.com/api/user/takeQuiz", {
@@ -136,6 +155,20 @@ export default function TakeQuiz(){
     ));
   };
 
+  const fetchUserReview = (data) => {
+      return (
+        <DoneAnswer 
+            number = {data.number}
+            question = {data.Question}
+            answerA = {data.OptionA}
+            answerB = {data.OptionB}
+            answerC = {data.OptionC}
+            answerD = {data.OptionD}
+            ans = {data.Answer}
+        />
+      );
+  }
+
 
   return (
     <>
@@ -144,7 +177,8 @@ export default function TakeQuiz(){
     <div className="tquiz-container">
       {userTakeQuiz ? (
         <>
-          <h1>Review</h1>
+          <h1>Review: </h1>
+          {userReview?.map(fetchUserReview)}
         </>
       ) : (
         <>

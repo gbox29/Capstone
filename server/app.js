@@ -1107,7 +1107,24 @@ app.put("/api/user/editProfile", upload.single('image'), (req,res)=>{ //done
 });
 
 
+//new additional
+app.get("/api/user/finishQuiz", (req,res) => {
+  const chapterId = req.query.chapterId;
 
+  if(req.session.user) {
+    const statement = "SELECT * FROM tb_takequiz WHERE user_id = ? AND chapter_id = ?";
+    database.query(statement, [userId,chapterId], (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      if (result.length > 0) {
+        res.send({ result: result });
+      } else {
+        res.send({ message: "Record not found" });
+      }
+    })
+  }
+});
 
 
 // ADMIN BACKEND
