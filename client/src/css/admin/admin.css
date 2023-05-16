@@ -1,0 +1,246 @@
+.attrib-container {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  width: 100%;
+  height: 100%;
+}
+
+.createAcc-attrib {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 600px;
+  border: outset 1px;
+  border-radius: 20px;
+  box-shadow: 5px 10px #F6F2F6;
+  margin-left: 100px;
+}
+
+.createAcc-tf {
+  margin-bottom: 5%;
+  padding-bottom: 2%;
+}
+
+.createCourse-tf {
+  margin-bottom: 5%;
+  padding-bottom: 2%;
+}
+
+.createCourse-tf > h2{
+  margin-bottom: 2%;
+}
+
+.createAcc-btn {
+  margin-bottom: 5%;
+  text-align: right;
+}
+
+.createCourse-btn {
+  margin-bottom: 5%;
+  text-align: right;
+}
+
+.createAcc-select {
+  margin-bottom: 5%;
+}
+
+.createCourse-select {
+  margin-bottom: 5%;
+}
+
+.user-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.createNewAcc-btn {
+  margin-top: 1%;
+  margin-left: 50%;
+  margin-bottom: 2%;
+}
+
+.modal, .overlay2 {
+  position: fixed; /* Sit on top of the page content */
+  /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  z-index: 10; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #f1f1f1;
+  padding: 14px 28px;
+  border-radius: 3px;
+  max-width: 600px;
+  min-width: 300px;
+}
+
+.modal-content2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #f1f1f1;
+  padding: 14px 28px;
+  border-radius: 3px;
+  max-width: 1500px;
+  min-width: 800px;
+}
+
+.modal-content3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #f1f1f1;
+  padding: 14px 28px;
+  border-radius: 3px;
+  max-width: 1500px;
+  min-width: 1100px;
+}
+
+.create-cancel-btns{
+  display: flex;
+  flex-direction: row;
+}
+.cancel-btn{
+  margin-right: 60%;
+}
+.cancel-btn2{
+  margin-right: 55%;
+}
+.back-btn{
+  margin-right: 60%;
+}
+
+.dashboard-container{
+  display: inline;
+  width: 100%;
+}
+.title-dashboard{
+  margin-bottom: 2%;
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard-attrib{
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.dashboard-chart-container{
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  justify-content: center;
+  gap: 7em;
+}
+
+.dashboard-text-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 5vh;
+  gap: 3.5em;
+}
+
+.dashboard-charts{
+  height: 100%;
+  width: 100%;
+  box-shadow: 5px 5px 5px 5px #b3b3b3;
+}
+
+.textbox1{
+  width: 200px;
+  height: 180px;
+  padding: 1%;
+  text-align: center;
+  box-shadow: 5px 5px 5px 5px #b3b3b3;
+}
+.textbox2{
+  width: 200px;
+  height: 180px;
+  padding: 1%;
+  text-align: center;
+  box-shadow: 5px 5px 5px 5px #b3b3b3;
+}
+.textbox3{
+  width: 200px;
+  height: 180px;
+  padding: 1%;
+  text-align: center;
+  box-shadow: 5px 5px 5px 5px #b3b3b3;
+}
+.textbox4{
+  width: 200px;
+  height: 180px;
+  padding: 1%;
+  text-align: center;
+  box-shadow: 5px 5px 5px 5px #b3b3b3;
+}
+
+.chart-title{
+  text-align: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.box1 {
+  grid-column: 1 / span 2;
+  grid-row: 1;
+  background-color: #f2f2f2;
+}
+
+.box2 {
+  grid-column: 1 / span 2;
+  grid-row: 2 / span 2;
+  background-color: #f2f2f2;
+}
+
+.box3 {
+  grid-column: 2;
+  grid-row: 2;
+  background-color: #f2f2f2;
+  align-self: start;
+}
+
+.box4 {
+  grid-column: 2;
+  grid-row: 3;
+  background-color: #f2f2f2;
+  align-self: start;
+}
+
+.box5 {
+  grid-column: 1 / span 2;
+  grid-row: 4;
+  background-color: #f2f2f2;
+}
+
+table {
+  padding-bottom: 50px;
+}
+table tr{
+  margin-bottom: 50px;
+}

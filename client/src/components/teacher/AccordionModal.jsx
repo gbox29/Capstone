@@ -12,38 +12,127 @@ export default function AccordionModal(props){
     const [desc, setDesc] = useState("");
     const [urlLink, setUrlLink] = useState("");
 
+    const [chapName, setChapName] = useState(props.chapterName);
+    const [chapNum, setChapNum] = useState(props.chapterNumber);
+    const [descrip, setDescrip] = useState(props.description);
+    const [link, setLink] = useState(props.url);
+
     const createChapter = () => {
-        console.log("Creating chapter...");
-        props.setLoading(true)
-        Axios.post("http://localhost:5000/api/user/addChapter", {
-            tb_lessonId: props.tb_createLesssonId,
-            chapter_name: chapterName,
-            chapter_number: chapterNumber,
-            description: desc,
-            url: urlLink
-        })
-        .then((response) => {
-            alert(response.data.message);
-            props.setChapter(prevState => [...prevState, response.data]);
-        }).finally(() => {
-            props.setLoading(false);
-        });
+        if(chapterName === "" || chapterNumber === "" || desc === "" || urlLink === "") {
+            alert("Dont leave a blank input");
+        } else {
+            props.setLoading(true)
+            Axios.post("http://localhost:5000/api/user/addChapter", {
+                tb_lessonId: props.tb_createLesssonId,
+                chapter_name: chapterName,
+                chapter_number: chapterNumber,
+                description: desc,
+                url: urlLink
+            })
+            .then((response) => {
+                alert(response.data.message);
+                props.setChapter(prevState => [...prevState, response.data]);
+            }).finally(() => {
+                props.setLoading(false);
+            });
+        }
     }
+
+    const editChapter = () => {
+            Axios.put("http://localhost:5000/api/user/editChapter", {
+                tb_lessonId: props.tb_createLesssonId,
+                chapter_name: chapName,
+                chapter_number: chapNum,
+                description: descrip,
+                url: link
+            })
+            .then((response) => {
+                if(response.data.result) {
+                    alert(response.data.result);
+                }
+            }).catch((error) => {
+                console.log(error);
+            })
+        
+    } 
+
     return (
         <div className="AcModal-wrap">
             <div className="exit-button">
-                <button>X</button>
+                {props.clickUpdate ? (
+                    <button onClick={() => {
+                        props.setUpdateModal(false);
+                    }}>close</button>
+                ) : 
+                    <button onClick={() => {
+                        props.setModal(false);
+                    }}>close</button>
+                }
             </div>
+
+
+            {props.clickUpdate ? (
+                <>
             <div className="vid-url">
                 <input 
-                    type="text" 
-                    placeholder="video url here" 
+                    type="text"
+                    value={link} 
+                    placeholder="copy and paste the highlighted part here" 
                     onChange={(e) => {
-                        setUrlLink(e.target.value);
+                        setLink(e.target.value);
+                    }}
+                />
+            </div>                
+            <div className="chapter-info">
+                <input 
+                    type="text" 
+                    value={chapName}
+                    placeholder="Chapter Name" 
+                    id="chapter-name"
+                    onChange={(e) => {
+                        setChapName(e.target.value);
+                    }}
+                />
+                <input 
+                    type="text" 
+                    placeholder="#"
+                    value={chapNum} 
+                    id="chapter-number"
+                    onChange={(e) => {
+                        setChapNum(e.target.value);
                     }}
                 />
             </div>
-            <div className="chapter-info">
+            <div className="chapter-description">
+                <textarea
+                    className="input-form textarea-form"
+                    value={descrip}
+                    id="chap-desc"
+                    name="w3review"
+                    rows="10"
+                    placeholder="Brief Description"
+                    onChange={(e) => {
+                        setDescrip(e.target.value);
+                    }}
+                ></textarea>
+            </div>
+            <Button variant="contained" onClick={editChapter}> Edit Chapter </Button>                
+                </>
+
+            ) : (
+
+
+                <>
+                <div className="vid-url">
+                    <input 
+                        type="text" 
+                        placeholder="copy and paste the highlighted part here" 
+                        onChange={(e) => {
+                            setUrlLink(e.target.value);
+                        }}
+                    />
+                </div>                
+                <div className="chapter-info">
                 <input 
                     type="text" 
                     placeholder="Chapter Name" 
@@ -67,13 +156,15 @@ export default function AccordionModal(props){
                     id="chap-desc"
                     name="w3review"
                     rows="10"
-                    placeholder="Description"
+                    placeholder="Brief Description"
                     onChange={(e) => {
                         setDesc(e.target.value);
                     }}
                 ></textarea>
             </div>
-            <Button variant="contained" onClick={createChapter}> Create Chapter </Button>
+            <Button variant="contained" onClick={createChapter}> Create Chapter </Button>                
+                </>
+            )}
         </div>
     );
 }

@@ -22,6 +22,10 @@ export default function TakeQuiz(){
   const [score, setScore] = useState(0);
   const [finish, setFinish] = useState(false);
 
+  const [userTakeQuiz, setUserTakeQuiz] = useState(false);
+  const [userReview, setUserReview] = useState([]);
+
+
   useEffect(() => {
     setChapterId(location.state.chapterId);
   }, [location.state.chapterId]);
@@ -29,6 +33,22 @@ export default function TakeQuiz(){
   useEffect(() => {
       chapterIdRef.current = chapterId;
   }, [chapterId]);
+
+  useEffect(() => {
+    const getQuiz = () => {
+      Axios.get("http://localhost:5000/api/user/finishQuiz")
+      .then((response) => {
+        if(!response.data.message){
+          setUserReview(response.data.result);
+          setUserTakeQuiz(true);
+        }
+      }).catch((error) => {
+        console.log(error.response);
+      })
+    }
+
+    getQuiz();
+  }, [userReview])
 
   const userStartQuiz = () => {
     Axios.post("http://localhost:5000/api/user/takeQuiz", {
@@ -67,16 +87,15 @@ export default function TakeQuiz(){
             setCurrentPage(currentPage + 1);
             setScore(score+1)
             setAnswer("");
+            if(currentPage > Math.ceil(data.length / itemsPerPage) - 1) {
+              setScore(score+1);
+              setFinish(true);
+            }
         } else {
           alert("Wrong answer try again!");
           setAnswer("");
         }
     });
-    Axios.get()
-    if(currentPage > Math.ceil(data.length / itemsPerPage) - 1) {
-      setScore(score+1);
-      setFinish(true);
-    }
   };
 
   const isData = () => {
@@ -123,41 +142,49 @@ export default function TakeQuiz(){
     <UserNavbar />
 
     <div className="tquiz-container">
-      <div className="quiz-tips-container">
-      {data && (
-      <>
-      <div className="quiz-tips"  style={hideStart === true ? {display:'none'} : null}>
-        <h1>Review the material beforehand </h1>
-        <p>Before taking the quiz, review the material covered in the class or course. Make sure you understand the key concepts, terms, and ideas so you are better prepared to answer the questions.</p>
-        </div>
-        <div className="userStartQuiz">
-          <Button onClick={userStartQuiz}
-            style={hideStart === true ? {display:'none'} : null} 
-          >Start</Button>
-        </div>
-      </>
-      )}
-      {isData()}      
-      </div>
-      {start && (
-          <>
-            {renderData()}
-            {data && (
-              <div className="next-question-button">
-                {currentPage < Math.ceil(data.length / itemsPerPage) ? (
-                  <Button onClick={handleNextClick}>Next</Button>
-                ) : (
-                  <Button onClick={handleNextClick} style={finish === true ? {display:'none'} : null}>Submit</Button>
+      {userTakeQuiz ? (
+        <>
+          <h1>Review</h1>
+        </>
+      ) : (
+        <>
+          <div className="quiz-tips-container">
+                  {data && (
+                  <>
+                  <div className="quiz-tips"  style={hideStart === true ? {display:'none'} : null}>
+                    <h1>Review the material beforehand </h1>
+                    <p>Before taking the quiz, review the material covered in the class or course. Make sure you understand the key concepts, terms, and ideas so you are better prepared to answer the questions.</p>
+                    </div>
+                    <div className="userStartQuiz">
+                      <Button onClick={userStartQuiz}
+                        style={hideStart === true ? {display:'none'} : null} 
+                      >Start</Button>
+                    </div>
+                  </>
+                  )}
+                  {isData()}      
+                </div>
+                {start && (
+                    <>
+                      {renderData()}
+                      {data && (
+                        <div className="next-question-button">
+                          {currentPage < Math.ceil(data.length / itemsPerPage) ? (
+                            <Button onClick={handleNextClick}>Next</Button>
+                          ) : (
+                            <Button onClick={handleNextClick} style={finish === true ? {display:'none'} : null}>Submit</Button>
+                          )}
+                        </div>
+                      )
+                }
+                    </>
                 )}
-              </div>
-            )
-      }
-          </>
-      )}
-      {finish && (
-          <>
-          <h1>Congratulations you finish the test your score is {score} / {overallItem} which is 100% good job!!!</h1>
-          </>
+                {finish && (
+                    <>
+                    <h1>Congratulations you finish the test your score is {score} / {overallItem} which is 100% good job!!!</h1>
+                    </>
+                )}
+        </>
       )}
     </div>
     </>

@@ -11,6 +11,7 @@ import UserNavbar from "../global/UserNavbar";
 export default function StudentAccordion() {
   const location = useLocation();
   const [modal, setModal] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [chapter, setChapter] = useState([]);
   const [lessonIdState, setLessonIdState] = useState(location.state.lessonId)
@@ -47,6 +48,11 @@ export default function StudentAccordion() {
     getChapter();
   }, [lessonIdRef,chapter]);
 
+  const [chapterName, setChapterName] = useState("");
+  const [chapterNumber, setChapterNumber] = useState("");
+  const [description, setDescription] = useState("");
+  const [url, setUrl] = useState("");
+  
   //map data
   const fetchData = (data) => {
     return (
@@ -62,6 +68,13 @@ export default function StudentAccordion() {
         year = {data.year}
         lessonId = {location.state.lessonId}
         kindofuser = {location.state.kindofuser}
+        updateModal = {updateModal}
+        setUpdateModal = {setUpdateModal}
+
+        setChapterName = {setChapterName}
+        setChapterNumber = {setChapterNumber}
+        setDescription = {setDescription}
+        setUrl = {setUrl}
       />
     );
   }
@@ -86,8 +99,30 @@ export default function StudentAccordion() {
               tb_createLesssonId = {location.state.lessonId}
               setChapter = {setChapter}
               setLoading = {setLoading}
+              modal = {modal}
+              setModal = {setModal}
             />
           </div>
+        </div>
+      )}
+      {updateModal && (
+          <div className="modal" id="student-modal">
+            <div onClick={()=>{setUpdateModal(!updateModal)}} className="overlay"></div>
+             <div className="modal-content">
+              <AccordionModal 
+                tb_createLesssonId = {location.state.lessonId}
+                setChapter = {setChapter}
+                setLoading = {setLoading}
+                clickUpdate = {true}
+                updateModal = {updateModal}
+                setUpdateModal = {setUpdateModal}
+
+                chapterName = {chapterName}
+                chapterNumber = {chapterNumber}
+                description = {description}
+                url = {url}
+              />
+            </div>
         </div>
       )}
       <div className="studentAccord">

@@ -38,6 +38,14 @@ export default function AcSummary(props={}){
       }});
     }
 
+    const updateChapter = () => {
+      props.setUpdateModal(!props.updateModal);
+      props.setChapterName(props.chapter_name);
+      props.setChapterNumber(props.chapter_number);
+      props.setDescription(props.desc);
+      props.setUrl(props.vid);
+    }
+
     const deleteChapter = (id) => {
       const result = window.confirm('Do you want to continue?');
       if (result) {
@@ -97,8 +105,24 @@ export default function AcSummary(props={}){
                           component="label"
                         >
                           Quiz
-                      </Button>                      
-                      
+                      </Button>
+                                            
+                      <Button
+                        sx={{
+                          width: { xs: 1 / 2, sm: 1 / 4, md: 1 / 6 },
+                          fontSize: 12,
+                          marginTop: 1,
+                          marginRight: 1
+                        }}
+                        onClick={() => {
+                          updateChapter();
+                        }}
+                        variant="contained"
+                        component="label"
+                      >
+                        Update
+                      </Button>
+
                       <Button
                         sx={{
                           width: { xs: 1 / 2, sm: 1 / 4, md: 1 / 6 },

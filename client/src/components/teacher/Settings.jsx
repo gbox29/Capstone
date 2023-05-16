@@ -15,7 +15,7 @@ export default function Settings(){
         } else if (password !== confirmPassword) {
           alert("Make sure password is equal to confirm password");
         } else {
-          Axios.put("http://localhost:5000/api/ResetPassword", { password: password })
+          Axios.put("http://localhost:5000/api/settingsResetPassword", { password: password })
             .then((response) => {
               if (!response.data.err) {
                 alert("Password successfully updated.");

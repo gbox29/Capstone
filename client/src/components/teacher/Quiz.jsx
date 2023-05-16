@@ -33,6 +33,14 @@ export default function Quiz(props){
               }
             }).then((response) => {
                 alert(response.data.message);
+                props.setQuestion("");
+                props.setOptionA("");
+                props.setOptionB("");
+                props.setOptionC("");
+                props.setOptionD("");
+                props.setAnswer("");
+                props.setQuizId("");
+                props.setClickUpdate(!props.clickUpdate);
             })
         } else {
             console.log('User clicked Cancel');
@@ -42,6 +50,7 @@ export default function Quiz(props){
     const updateQuestion = () => {
         setAnchorEl(null);
         props.setClickUpdate(!props.clickUpdate);
+        props.setUpdateNum(props.number);
         props.setQuestion(props.question);
         props.setOptionA(props.optionA);
         props.setOptionB(props.optionB);

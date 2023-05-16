@@ -50,13 +50,19 @@ export default function Auth() {
   useEffect(() => {
     Axios.get("http://localhost:5000/api/login").then((response) => {
       if(response.data.loggedIn === true){
-
-        //console.log(response.data.user[0].kindofuser);
-        //console.log(response.data.user[0].id);
-        navigate({
-          pathname: "/user",
-          search: `?${createSearchParams({kindofuser})}`, // inject code value into template
-        },{state: {kindofuser : response.data.user[0].kindofuser}});
+        console.log(response.data.user[0].kindofuser);
+        if(response.data.user[0].kindofuser === 'admin') {
+          navigate("/admin/dashboard");
+        } else {
+          navigate({
+            pathname: "/user",
+            search: `?${createSearchParams({kindofuser})}`, // inject code value into template
+          },{state: {kindofuser : response.data.user[0].kindofuser}});
+        }
+        // navigate({
+        //   pathname: "/user",
+        //   search: `?${createSearchParams({kindofuser})}`, // inject code value into template
+        // },{state: {kindofuser : response.data.user[0].kindofuser}});
       }
     });
   });
@@ -93,6 +99,8 @@ export default function Auth() {
       }).then((response) => {
         if(response.data.result){
           navigate("/auth/resetPassword");
+        } else {
+          setLoginStatus(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -104,7 +112,7 @@ export default function Auth() {
     <div className="container auth-form">
       {forgotPassword ? (
         <>
-        <h4>Input your email and we will send an otp code</h4>
+        <h4>Input your email and we will send a link to reset your password</h4>
           <input 
             type="text" 
             placeholder="email" 

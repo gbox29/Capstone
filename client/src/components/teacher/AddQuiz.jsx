@@ -14,6 +14,7 @@ export default function AddQuiz() {
 
     
     const [number, setNumber] = useState(1);
+    const [updateNum, setUpdateNum] = useState("");
     const [question, setQuestion] = useState("");
     const [optionA, setOptionA] = useState("");
     const [optionB, setOptionB] = useState("");
@@ -89,7 +90,7 @@ export default function AddQuiz() {
         Axios.put("http://localhost:5000/api/user/editQuestion", {
             id : quizId,
             question : question,
-            number : number,
+            number : updateNum,
             optionA : optionA,
             optionB  : optionB,
             optionC : optionC,
@@ -174,6 +175,8 @@ export default function AddQuiz() {
 
                 setQuizId = {setQuizId}
                 setNumber = {setNumber}
+                
+                setUpdateNum = {setUpdateNum}
             />
         );
     }
