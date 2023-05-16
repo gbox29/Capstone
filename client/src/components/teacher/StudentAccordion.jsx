@@ -46,7 +46,7 @@ export default function StudentAccordion() {
       })
     }
     getChapter();
-  }, [lessonIdRef,chapter]);
+  }, []);
 
   const [chapterName, setChapterName] = useState("");
   const [chapterNumber, setChapterNumber] = useState("");

@@ -3,13 +3,14 @@ import "../../css/teacher/video.css";
 import { useEffect,useState, useRef, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate, createSearchParams} from "react-router-dom";
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Rating from '@mui/material/Rating';
 import RatingWidth from "./RatingWidth";
 import Ratings from "./Ratings";
 import StarRating from "./StarRating";
-import Avatar from '@mui/material/Avatar';
+// import Avatar from '@mui/material/Avatar';
 import Axios from 'axios';
 import UserReactions from "./UserReactions";
 import LessonVideoRec from "./LessonVideoRec";
@@ -37,8 +38,10 @@ export default function LessonVideo(){
 
     const [nextVid, setNextVid] = useState([]);
     //console.log(nextVid);
-    
 
+    const [queryCount, setQueryCount] = useState(0);
+    
+    const [numReaction, setNumReaction] = useState(0);
     //rate or comment chapter
     const userComment = () => {
         Axios.post("https://mathflix.herokuapp.com/api/user/rateChapter", {
@@ -51,6 +54,7 @@ export default function LessonVideo(){
                 setReaction("");
                 setValue(0);
                 setFetchReaction(prevState => [...prevState, response.data]); // update fetchReaction state with new comment
+                setNumReaction(numReaction+1);
             }
           });
     }
@@ -88,7 +92,7 @@ export default function LessonVideo(){
         }).catch((error) => {
             console.log(error);
         });
-    },[fetchReaction]);
+    },[numReaction]);
 
 
     //fetch all chapters in lesson for next video navigation
@@ -105,9 +109,12 @@ export default function LessonVideo(){
             console.log(error.response);
           })
         }
-        getChapter();
-      });
-
+         if (queryCount < MAX_QUERIES) {
+            getChapter();
+            setQueryCount(queryCount + 1);
+        }
+    }, [queryCount]);
+    const MAX_QUERIES = 10
 
       //automatic update the stars of the chapters everytime the user insert or update the comment
       const chapterRating = useCallback(() => {
@@ -135,6 +142,7 @@ export default function LessonVideo(){
                 firstname = {data.firstname}
                 lastname = {data.lastname}
                 comment = {data.comment}
+                pic = {data.pic}
                 rate = {data.rate}
                 month = {data.month}
                 day = {data.day}
@@ -230,7 +238,8 @@ export default function LessonVideo(){
                         <h2>Feedback</h2>
                         <div className="add-feedback">
                             <div className="feedback-pic">
-                                <Avatar alt="John Doe" src="/static/images/avatar/2.jpg" />
+                                <Avatar alt="Comment" src="/static/images/avatar/2.jpg" />
+
                             </div>
                             <div className="comment">
                                 <div className="input-comment">

@@ -107,8 +107,13 @@
 
 
 .feedback-pic{
-    width: 4%;
+    width: 5%;
+    height: 100%;
     padding: 1%;
+}
+
+.feedback-pic img{
+    border-radius: 50%;
 }
 
 .comment{

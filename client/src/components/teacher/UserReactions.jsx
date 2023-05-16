@@ -1,4 +1,4 @@
-import Avatar from '@mui/material/Avatar';
+// import Avatar from '@mui/material/Avatar';
 import Rating from '@mui/material/Rating';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -18,6 +18,8 @@ export default function UserReactions(props){
     const [comments, setComments] = useState(props.comment);
     const [commentId] = useState(props.id);
     const open = Boolean(anchorEl);
+
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -25,6 +27,7 @@ export default function UserReactions(props){
     const handleClose = () => {
         setAnchorEl(null)
     }
+
 
     const deleteComment = () => {
         const result = window.confirm('Do you want to continue?');
@@ -37,6 +40,7 @@ export default function UserReactions(props){
               }
             }).then((response) => {
                 alert(response.data.message);
+                document.location.reload(true);
             })
         } else {
             console.log('User clicked Cancel');
@@ -63,6 +67,7 @@ export default function UserReactions(props){
         }).then((response) => {
             setUpdateReaction(!updateReaction);
             alert(response.data.message);
+            document.location.reload(true);
         }).catch((error) => {
             console.log(error);
         })
@@ -71,7 +76,8 @@ export default function UserReactions(props){
     return (
         <div className="feedback-container">
                             <div className="feedback-pic">
-                                <Avatar alt={props.firstname} src="/static/images/avatar/2.jpg" />
+                                {/* <Avatar alt={props.firstname} src="/static/images/avatar/2.jpg" /> */}
+                                <img src={props.pic} alt="user" />
                             </div>
                             <div className="comment">
                                 <div className="input-comment">

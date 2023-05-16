@@ -147,7 +147,7 @@ export default function AddQuiz() {
             })
           }
           getQuiz();
-    },[chapterIdRef,fetchQuestion])
+    },[])
 
     const fetchQuestions = (data) => {
         return (

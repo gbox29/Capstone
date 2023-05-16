@@ -94,7 +94,7 @@ export default function Analytics(){
         }).catch((error) => {
             console.log(error);
         });
-    },[fetchStudentList])
+    },[])
 
     useEffect(() => {
         Axios.get("https://mathflix.herokuapp.com/api/user/lessonOwner", {
@@ -108,7 +108,7 @@ export default function Analytics(){
         }).catch((error) => {
             console.log(error);
         });
-    },[fetchStudentList])
+    },[])
 
     const HandleSearch = (event) => {
         setSearch(event.target.value);
@@ -156,7 +156,7 @@ export default function Analytics(){
             });
         }, 500); // Wait for 500ms before triggering action
         return () => clearTimeout(timeout);
-    }, [chapter]);
+    }, []);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -175,7 +175,7 @@ export default function Analytics(){
             });
         }, 500); // Wait for 500ms before triggering action
         return () => clearTimeout(timeout);
-    }, [ratings]);
+    }, []);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -194,7 +194,7 @@ export default function Analytics(){
             });
         }, 500); // Wait for 500ms before triggering action
         return () => clearTimeout(timeout);
-    }, [quiz]);
+    }, []);
 
     return(
         <>

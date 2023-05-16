@@ -84,7 +84,7 @@ export default function Courses(){
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
         getResult();
-    },[fetchLesson]);
+    },[]);
 
     useEffect(() => {
         const getStudentEnrolled = () => {
@@ -94,7 +94,7 @@ export default function Courses(){
             });           
         }
         getStudentEnrolled();
-    },[studentEnrolled])
+    },[])
 
     //test
     useEffect(() => {

@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import Axios from "axios";
 
@@ -44,6 +44,7 @@ export default function Auth() {
       } else {
         //console.log(response);
         setLoginStatus(response.data.result[0].email);
+        UserLoggedIn();
         //console.log(response.data.result[0].email);
       }
     });
@@ -51,23 +52,21 @@ export default function Auth() {
 
 
 
-
-  useEffect(() => {
-    Axios.get("https://mathflix.herokuapp.com/api/login").then((response) => {
-      console.log("kind of user", response);
-      if(response.data.loggedIn === true){
-        console.log(response.data.user[0].kindofuser);
-        if(response.data.user[0].kindofuser === 'admin') {
-          navigate("/admin/dashboard");
-        } else {
-          navigate({
-            pathname: "/user",
-            search: `?${createSearchParams({kindofuser})}`, // inject code value into template
-          },{state: {kindofuser : response.data.user[0].kindofuser}});
+  const UserLoggedIn = () => {
+      Axios.get("https://mathflix.herokuapp.com/api/login").then((response) => {
+        if(response.data.loggedIn === true){
+          console.log(response.data.user[0].kindofuser);
+          if(response.data.user[0].kindofuser === 'admin') {
+            navigate("/admin/dashboard");
+          } else {
+            navigate({
+              pathname: "/user",
+              search: `?${createSearchParams({kindofuser})}`, // inject code value into template
+            },{state: {kindofuser : response.data.user[0].kindofuser}});
+          }
         }
-      }
-    });
-  });
+      });
+  }
   
 
   const submit = (state) =>{

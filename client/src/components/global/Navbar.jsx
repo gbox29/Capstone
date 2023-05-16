@@ -27,7 +27,7 @@ export default function Navbar() {
         },{state: {kindofuser : response.data.user[0].kindofuser}});
       }
     });
-  });
+  }, [kindofuser, navigate]);
 
   return (
     <div

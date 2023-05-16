@@ -93,7 +93,7 @@ export default function TakeQuiz(){
           })
         }
         getQuiz();
-  },[chapterIdRef,data])
+  },[])
 
   const handleNextClick = () => {
     Axios.get("https://mathflix.herokuapp.com/api/user/answerQuiz", {
