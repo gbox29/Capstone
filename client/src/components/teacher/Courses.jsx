@@ -54,7 +54,7 @@ export default function Courses(){
         setNextModal(false);
     }
     const createLesson = () => {
-        Axios.post("http://localhost:5000/api/user/createLesson", {
+        Axios.post("https://mathflix.herokuapp.com/api/user/createLesson", {
           lesson: lesson,
           glevel: glevel,
         }).then((response) => {
@@ -77,7 +77,7 @@ export default function Courses(){
 
     useEffect(() => {
         const getResult = () => {
-            Axios.get("http://localhost:5000/api/user/fetchLesson").then((response) => {
+            Axios.get("https://mathflix.herokuapp.com/api/user/fetchLesson").then((response) => {
                     setFetchLesson(response.data.result);
                     //console.log(fetchLesson);
             });
@@ -88,7 +88,7 @@ export default function Courses(){
 
     useEffect(() => {
         const getStudentEnrolled = () => {
-            Axios.get("http://localhost:5000/api/user/studentEnrolled").then((response) => {
+            Axios.get("https://mathflix.herokuapp.com/api/user/studentEnrolled").then((response) => {
                     setStudentEnrolled(response.data.result);
                     //console.log(fetchLesson);
             });           
@@ -99,7 +99,7 @@ export default function Courses(){
     //test
     useEffect(() => {
         const checkProfile = () => {
-            Axios.get("http://localhost:5000/api/user/profile").then((response) => {
+            Axios.get("https://mathflix.herokuapp.com/api/user/profile").then((response) => {
                 if(response.data.message){
                     navigate("/user/profile");
                 }

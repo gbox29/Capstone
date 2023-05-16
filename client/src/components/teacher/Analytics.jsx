@@ -81,7 +81,7 @@ export default function Analytics(){
       }, [lessonId]);
 
     useEffect(() => {
-        Axios.get("http://localhost:5000/api/user/userEnrolled", {
+        Axios.get("https://mathflix.herokuapp.com/api/user/userEnrolled", {
             params: {
                 lessonId: lessonIdRef.current,
                 kindofuser : "student"
@@ -97,7 +97,7 @@ export default function Analytics(){
     },[fetchStudentList])
 
     useEffect(() => {
-        Axios.get("http://localhost:5000/api/user/lessonOwner", {
+        Axios.get("https://mathflix.herokuapp.com/api/user/lessonOwner", {
             params: {
                 lessonId: lessonIdRef.current,
               }            
@@ -117,7 +117,7 @@ export default function Analytics(){
     useEffect(() => {
         const timeout = setTimeout(() => {
             // Perform action when user stops typing
-            Axios.get("http://localhost:5000/api/user/searchEnrolledStudent", {
+            Axios.get("https://mathflix.herokuapp.com/api/user/searchEnrolledStudent", {
             params: {
                 data : search,
                 lessonId: lessonIdRef.current,
@@ -142,7 +142,7 @@ export default function Analytics(){
     useEffect(() => {
         const timeout = setTimeout(() => {
             // Perform action when user stops typing
-            Axios.get("http://localhost:5000/api/user/fetchChapter", {
+            Axios.get("https://mathflix.herokuapp.com/api/user/fetchChapter", {
             params: {
                 tb_lessonId: lessonIdRef.current,
               }            
@@ -161,7 +161,7 @@ export default function Analytics(){
     useEffect(() => {
         const timeout = setTimeout(() => {
             // Perform action when user stops typing
-            Axios.get("http://localhost:5000/api/user/fetchUserComments", {
+            Axios.get("https://mathflix.herokuapp.com/api/user/fetchUserComments", {
             params: {
                 lessonId: lessonIdRef.current,
               }            
@@ -180,7 +180,7 @@ export default function Analytics(){
     useEffect(() => {
         const timeout = setTimeout(() => {
             // Perform action when user stops typing
-            Axios.get("http://localhost:5000/api/user/fetchUserAllQuizzes", {
+            Axios.get("https://mathflix.herokuapp.com/api/user/fetchUserAllQuizzes", {
             params: {
                 lessonId: lessonIdRef.current,
               }            

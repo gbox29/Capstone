@@ -26,7 +26,7 @@ export default function Quiz(props){
         const result = window.confirm('Do you want to continue?');
         if (result) {
             setAnchorEl(null);
-            Axios.delete("http://localhost:5000/api/user/deleteQuestion", {
+            Axios.delete("https://mathflix.herokuapp.com/api/user/deleteQuestion", {
               params: {
                 id : props.id,
                 chapterId : props.chapterId

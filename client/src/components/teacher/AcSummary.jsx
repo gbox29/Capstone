@@ -49,7 +49,7 @@ export default function AcSummary(props={}){
     const deleteChapter = (id) => {
       const result = window.confirm('Do you want to continue?');
       if (result) {
-        Axios.delete("http://localhost:5000/api/user/deleteChapter", {
+        Axios.delete("https://mathflix.herokuapp.com/api/user/deleteChapter", {
           params: {
             chapterId : id,
           }

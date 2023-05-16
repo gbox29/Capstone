@@ -41,7 +41,7 @@ export default function LessonVideo(){
 
     //rate or comment chapter
     const userComment = () => {
-        Axios.post("http://localhost:5000/api/user/rateChapter", {
+        Axios.post("https://mathflix.herokuapp.com/api/user/rateChapter", {
             chapter_id: location.state.chapterId,
             comment : reaction,
             rating : value
@@ -74,7 +74,7 @@ export default function LessonVideo(){
 
     //fetch all user ratings and comments
     useEffect(() => {
-        Axios.get("http://localhost:5000/api/user/fetchUserRatings", {
+        Axios.get("https://mathflix.herokuapp.com/api/user/fetchUserRatings", {
             params: {
                 chapter_id : chapterIdRef.current,
               }            
@@ -94,7 +94,7 @@ export default function LessonVideo(){
     //fetch all chapters in lesson for next video navigation
     useEffect(()=>{
         const getChapter = () => {
-          Axios.get("http://localhost:5000/api/user/fetchChapter",{
+          Axios.get("https://mathflix.herokuapp.com/api/user/fetchChapter",{
             params: {
               tb_lessonId : lessonIdRef.current
             }
@@ -111,7 +111,7 @@ export default function LessonVideo(){
 
       //automatic update the stars of the chapters everytime the user insert or update the comment
       const chapterRating = useCallback(() => {
-        Axios.put("http://localhost:5000/api/user/editChapterStar", {
+        Axios.put("https://mathflix.herokuapp.com/api/user/editChapterStar", {
           rating : totalRate,
           chapter_id: location.state.chapterId
         }).then((response) => {

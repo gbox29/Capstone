@@ -35,7 +35,7 @@ export default function StudentAccordion() {
   //Fetch the lesson chapters
   useEffect(()=>{
     const getChapter = () => {
-      Axios.get("http://localhost:5000/api/user/fetchChapter",{
+      Axios.get("https://mathflix.herokuapp.com/api/user/fetchChapter",{
         params: {
           tb_lessonId : lessonIdRef.current
         }

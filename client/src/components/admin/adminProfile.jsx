@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Axios from 'axios';
-import UserNavBar from "../../components/global/UserNavbar";
+import AdminNav from "./adminNav";
 import "../../css/teacher/profile.css";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -42,7 +42,7 @@ export default function Profile(){
             headers: { 'Content-Type': 'multipart/form-data' }
           });
           if(response) {
-            navigate('/user/settings');
+            navigate('/admin/settings');
           }
         } catch (error) {
           console.error(error);
@@ -92,7 +92,7 @@ export default function Profile(){
 
     return (
         <>
-            <UserNavBar />
+            <AdminNav />
             <div className="profile-container">
                 <div className="profile-div">
                     <div className="profile-picture">
@@ -128,20 +128,7 @@ export default function Profile(){
                                         onChange={(event)=> setLName(event.target.value)}
                                         sx={{marginTop: '10%'}}
                                     />
-
-                                    {/* <TextField 
-                                    id="select" 
-                                    select 
-                                    placeholder="gender"
-                                    value={pCheck === false ? (profile.length > 0 ? profile[0]?.gender : "") : gen}
-                                    defaultValue={gen} 
-                                    onChange={(event) => setGen(event.target.value)} 
-                                    sx={{marginTop: '10%'}}
-                                    >
-                                    <MenuItem value="Male">Male</MenuItem>
-                                    <MenuItem value="Female">Female</MenuItem>
-                                    </TextField> */}
-
+                                    
                                     <TextField 
                                     id="select" 
                                     select 

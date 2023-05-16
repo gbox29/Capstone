@@ -30,7 +30,7 @@ export default function UserReactions(props){
         const result = window.confirm('Do you want to continue?');
         if (result) {
             setAnchorEl(null);
-            Axios.delete("http://localhost:5000/api/user/deleteComment", {
+            Axios.delete("https://mathflix.herokuapp.com/api/user/deleteComment", {
               params: {
                 ratingId : props.id,
                 user_id : props.user_id
@@ -55,7 +55,7 @@ export default function UserReactions(props){
     const editComment = () => {
         //setUpdateReaction(!updateReaction);
         //console.log(newValue);
-        Axios.put("http://localhost:5000/api/user/updateComment", {
+        Axios.put("https://mathflix.herokuapp.com/api/user/updateComment", {
             newComment : comments,
             newRating : newValue,
             commentId: commentId,

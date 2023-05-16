@@ -16,7 +16,7 @@ export default function EnrollStudentModal(props){
         const fetchStudents = async () => {
             try {
               const response = await Axios.get(
-                "http://localhost:5000/api/user/searchStudent",
+                "https://mathflix.herokuapp.com/api/user/searchStudent",
                 {
                   params: {
                     student: student,
@@ -46,6 +46,7 @@ export default function EnrollStudentModal(props){
                 email = {data.email}
                 firstname = {data.firstname}
                 lastname = {data.lastname}
+                pic = {data.pic}
             />
         )
     }

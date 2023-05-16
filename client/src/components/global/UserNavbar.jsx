@@ -57,7 +57,7 @@ function MyAppBar() {
 
   const userLogout = () => {
     setAnchorElUser(null);
-    Axios.delete("http://localhost:5000/logout").then((response)=> {
+    Axios.delete("https://mathflix.herokuapp.com/logout").then((response)=> {
       if(response){
         navigate("/", {replace: true})
       }

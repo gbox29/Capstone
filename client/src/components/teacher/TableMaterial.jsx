@@ -16,7 +16,7 @@ export default function BasicTable(props) {
   const removeUser = (studentId) => {
     const result = window.confirm('Do you want to continue?');
     if (result) {
-      Axios.delete("http://localhost:5000/api/user/userRemove", {
+      Axios.delete("https://mathflix.herokuapp.com/user/userRemove", {
         params: {
           user_id : studentId,
           lessonId : props.lessonId

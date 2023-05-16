@@ -22,7 +22,7 @@ export default function AccordionModal(props){
             alert("Dont leave a blank input");
         } else {
             props.setLoading(true)
-            Axios.post("http://localhost:5000/api/user/addChapter", {
+            Axios.post("https://mathflix.herokuapp.com/api/user/addChapter", {
                 tb_lessonId: props.tb_createLesssonId,
                 chapter_name: chapterName,
                 chapter_number: chapterNumber,
@@ -39,7 +39,7 @@ export default function AccordionModal(props){
     }
 
     const editChapter = () => {
-            Axios.put("http://localhost:5000/api/user/editChapter", {
+            Axios.put("https://mathflix.herokuapp.com/api/user/editChapter", {
                 tb_lessonId: props.tb_createLesssonId,
                 chapter_name: chapName,
                 chapter_number: chapNum,

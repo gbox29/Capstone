@@ -61,7 +61,7 @@ export default function AddQuiz() {
 
 
     const addQuestion = () => {
-        Axios.post("http://localhost:5000/api/user/addQuiz", {
+        Axios.post("https://mathflix.herokuapp.com/api/user/addQuiz", {
             chapterId: location.state.chapterId,
             number : number,
             question : question,
@@ -87,7 +87,7 @@ export default function AddQuiz() {
     }
 
     const editQuestion = () => {
-        Axios.put("http://localhost:5000/api/user/editQuestion", {
+        Axios.put("https://mathflix.herokuapp.com/api/user/editQuestion", {
             id : quizId,
             question : question,
             number : updateNum,
@@ -113,7 +113,7 @@ export default function AddQuiz() {
     const deleteAllQuestion = () => {
         const result = window.confirm('Do you want to continue?');
         if (result) {
-            Axios.delete("http://localhost:5000/api/user/deleteAllQuestion", {
+            Axios.delete("https://mathflix.herokuapp.com/api/user/deleteAllQuestion", {
               params: {
                 chapterId : location.state.chapterId
               }
@@ -135,7 +135,7 @@ export default function AddQuiz() {
 
     useEffect(() => {
         const getQuiz = () => {
-            Axios.get("http://localhost:5000/api/user/fetchQuiz",{
+            Axios.get("https://mathflix.herokuapp.com/api/user/fetchQuiz",{
               params: {
                 chapterId: chapterIdRef.current,
               }

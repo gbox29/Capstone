@@ -17,7 +17,7 @@ export default function Navbar() {
   Axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    Axios.get("http://localhost:5000/api/login").then((response) => {
+    Axios.get("https://mathflix.herokuapp.com/api/login").then((response) => {
       if(response.data.loggedIn === true){
 
         console.log(response.data.user[0].kindofuser);

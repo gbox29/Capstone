@@ -7,7 +7,7 @@ import Axios from "axios";
 export default function Reset(){
     const navigate = useNavigate();
     const confirmReset = () =>{
-        Axios.put("http://localhost:5000/api/ResetPassword")
+        Axios.put("https://mathflix.herokuapp.com/api/ResetPassword")
             .then((response) => {
                 if(!response.data.err){
                     navigate("/auth");

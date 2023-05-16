@@ -12,6 +12,9 @@ import AdminIndex from "./components/admin/AdminIndex";
 import AdminPage2 from "./components/admin/AdminPage2";
 import AdminPage3 from "./components/admin/adminPage3";
 import GamesPage from "./components/games/GamesPage";
+import AdminProfile from "./components/admin/adminProfile";
+import AdminSettings from "./components/admin/adminSettings";
+
 import Game1 from "./components/games/Game1";
 import Game2 from "./components/games/Game2";
 
@@ -52,6 +55,8 @@ export default function app() {
         <Route path="/admin/dashboard" element={<AdminIndex />}/>
         <Route path="/admin/user-list" element={<AdminPage2 />}/>
         <Route path="/admin/course-list" element={<AdminPage3 />}/>
+        <Route path="/admin/profile" element={<AdminProfile />}/>
+        <Route path="/admin/settings" element={<AdminSettings />} />
       </Routes>
     </>
   );

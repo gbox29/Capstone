@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Axios from "axios";
-import UserNavbar from "../global/UserNavbar";
+import AdminNav from "./adminNav";
 import "../../css/teacher/settings.css";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -30,7 +30,7 @@ export default function Settings(){
     };
     
     return(<>
-        <UserNavbar />
+        <AdminNav />
         <div className="settings-container">
             <div className="reset-password-container">
                 <div>

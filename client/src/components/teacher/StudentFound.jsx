@@ -8,7 +8,7 @@ export default function StudentFound(props){
 
     const addStudent = () => {
         //console.log("The id of the student is " + props.id + " and the lesson id is " + props.lessonId);
-        Axios.post("http://localhost:5000/api/user/enrollStudent",{
+        Axios.post("https://mathflix.herokuapp.com/api/user/enrollStudent",{
             studentId : props.id,
             lessonId : props.lessonId
         }).then((response) => {
@@ -28,7 +28,7 @@ export default function StudentFound(props){
         <>
             <div className="student-found" onClick={addStudent} key={props.id}>
                 <div className="student-found-img">
-
+                    <img src={props.pic} alt="user pic"></img>
                 </div>
                 <div className="student-found-desc">
                     <div className="student-found-name">

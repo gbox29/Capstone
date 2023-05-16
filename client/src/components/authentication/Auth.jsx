@@ -22,24 +22,27 @@ export default function Auth() {
   Axios.defaults.withCredentials = true;
 
   const register = () => {
-    Axios.post("http://localhost:5000/api/register",{
+    Axios.post("https://mathflix.herokuapp.com/api/register",{
       email:email,
       password:password
     }).then((response) => {
         if(response.data.message){
           alert(response.data.message);
         }
+    }).catch((error) => {
+      console.log(error);
     });
   };
 
   const login = () => {
-    Axios.post("http://localhost:5000/api/login", {
+    Axios.post("https://mathflix.herokuapp.com/api/login", {
       email: email,
       password:password
     }).then((response) => {
       if (response.data.message) {
-        setLoginStatus(response.data.message);
+        //console.log(response) 
       } else {
+        //console.log(response);
         setLoginStatus(response.data.result[0].email);
         //console.log(response.data.result[0].email);
       }
@@ -47,8 +50,11 @@ export default function Auth() {
   };
 
 
+
+
   useEffect(() => {
-    Axios.get("http://localhost:5000/api/login").then((response) => {
+    Axios.get("https://mathflix.herokuapp.com/api/login").then((response) => {
+      console.log("kind of user", response);
       if(response.data.loggedIn === true){
         console.log(response.data.user[0].kindofuser);
         if(response.data.user[0].kindofuser === 'admin') {
@@ -59,10 +65,6 @@ export default function Auth() {
             search: `?${createSearchParams({kindofuser})}`, // inject code value into template
           },{state: {kindofuser : response.data.user[0].kindofuser}});
         }
-        // navigate({
-        //   pathname: "/user",
-        //   search: `?${createSearchParams({kindofuser})}`, // inject code value into template
-        // },{state: {kindofuser : response.data.user[0].kindofuser}});
       }
     });
   });
@@ -94,7 +96,7 @@ export default function Auth() {
     if(email.length === 0){
       setLoginStatus("Please dont forget to input your email")
     } else {
-      Axios.post("http://localhost:5000/api/forgotPassword", {
+      Axios.post("https://mathflix.herokuapp.com/api/forgotPassword", {
         gmail: email,
       }).then((response) => {
         if(response.data.result){

@@ -26,7 +26,7 @@ export default function AdminUserRecords() {
 
     useEffect(() => {
             const getResult = () => {
-                Axios.get("http://localhost:5000/api/admin/user_records").then((response) => {
+                Axios.get("https://mathflix.herokuapp.com/api/admin/user_records").then((response) => {
                     if (response.data.message) {
                         console.log(response.data.message);
                     }else{
@@ -49,7 +49,7 @@ export default function AdminUserRecords() {
                     size="small"
                     style={{ marginLeft: 16 }}
                     onClick={() => {
-                        Axios.delete("http://localhost:5000/api/admin/delete_records", {
+                        Axios.delete("https://mathflix.herokuapp.com/api/admin/delete_records", {
                             params: {
                                 id: params.row.id
                             }
@@ -187,7 +187,7 @@ export default function AdminUserRecords() {
 
     
     const handleEdit = () => {
-        Axios.put("http://localhost:5000/api/admin/edit_records", {
+        Axios.put("https://mathflix.herokuapp.com/api/admin/edit_records", {
             id: id,
             firstname: firstname,
             lastname: lastname,
@@ -211,7 +211,7 @@ export default function AdminUserRecords() {
         const id = row.id;
         const lastname = row.lastname;
         const email = row.email;
-        Axios.put("http://localhost:5000/api/admin/resetPW_records", {
+        Axios.put("https://mathflix.herokuapp.com/api/admin/resetPW_records", {
             id: id,
             lastname: lastname,
             email: email,
@@ -238,7 +238,7 @@ export default function AdminUserRecords() {
 
     const handleCreate = () => {
         if (email !== "" && userType !== "") {
-            Axios.post("http://localhost:5000/api/admin/create_records", {
+            Axios.post("https://mathflix.herokuapp.com/api/admin/create_records", {
                 firstname: firstname,
                 lastname: lastname,
                 gender: gender,
@@ -396,8 +396,9 @@ export default function AdminUserRecords() {
                                         label="Age"
                                         onChange={handleChange2}
                                     >
-                                        <MenuItem value={"Student"}>Student</MenuItem>
-                                        <MenuItem value={"Teacher"}>Teacher</MenuItem>
+                                        <MenuItem value={"student"}>student</MenuItem>
+                                        <MenuItem value={"teacher"}>teacher</MenuItem>
+                                        <MenuItem value={"admin"}>admin</MenuItem>
                                     </Select>
                                 </FormControl>
                             </div>

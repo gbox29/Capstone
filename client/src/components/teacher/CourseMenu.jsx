@@ -47,7 +47,7 @@ export default function CourseMenu(props){
       const result = window.confirm('Do you want to continue?');
       if (result) {
         setAnchorEl(null);
-        Axios.delete("http://localhost:5000/api/user/delete", {
+        Axios.delete("https://mathflix.herokuapp.com/api/user/delete", {
           params: {
             lessonId : props.lessonId
           }

@@ -20,27 +20,27 @@ export default function AdminDashboard() {
     const [usersavgrateAxios, setUsersAvgRateAxios] = useState(0);
 
     const getResult = () => {
-        Axios.get("http://localhost:5000/api/admin/total_users_data").then((response) => {
+        Axios.get("https://mathflix.herokuapp.com/api/admin/total_users_data").then((response) => {
             if (response) {
                 setTotalUsersAxios(response.data.result);
             }
         });
-        Axios.get("http://localhost:5000/api/admin/reg_users_data").then((response) => {
+        Axios.get("https://mathflix.herokuapp.com/api/admin/reg_users_data").then((response) => {
             if (response) {
                 setTotalUsersRegAxios(response.data.result);
             }
         });
-        Axios.get("http://localhost:5000/api/admin/enrolled_users_data").then((response) => {
+        Axios.get("https://mathflix.herokuapp.com/api/admin/enrolled_users_data").then((response) => {
             if (response) {
                 setTotalEnrolledUsersAxios(response.data.result);
             }
         });
-        Axios.get("http://localhost:5000/api/admin/users_rate_data").then((response) => {
+        Axios.get("https://mathflix.herokuapp.com/api/admin/users_rate_data").then((response) => {
             if (response) {
                 setUsersAvgRateAxios(response.data.result);
             }
         });
-        Axios.get("http://localhost:5000/api/admin/pie_data").then((response) => {
+        Axios.get("https://mathflix.herokuapp.com/api/admin/pie_data").then((response) => {
             if (response.data.message) {
                 console.log(response.data.message);
             }else{
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
             }
         });
 
-        Axios.get("http://localhost:5000/api/admin/linegraph_data").then((response) => {
+        Axios.get("https://mathflix.herokuapp.com/api/admin/linegraph_data").then((response) => {
             if (response.data.message) {
                 console.log(response.data.message);
             }else{

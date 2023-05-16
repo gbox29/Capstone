@@ -143,7 +143,7 @@ export default function AdminCourses() {
 
     useEffect(() => {
             const getResult = () => {
-                Axios.get("http://localhost:5000/api/admin/lesson_records").then((response) => {
+                Axios.get("https://mathflix.herokuapp.com/api/admin/lesson_records").then((response) => {
                     if (response.data.message) {
                         console.log(response.data.message)
                     }else{
@@ -159,7 +159,7 @@ export default function AdminCourses() {
     }, []);
 
     const getChapters = (row) => {
-        Axios.get("http://localhost:5000/api/admin/chapter_records", {
+        Axios.get("https://mathflix.herokuapp.com/api/admin/chapter_records", {
             params: {
                 id: row.id
             }
@@ -179,7 +179,7 @@ export default function AdminCourses() {
     }
 
     const getStudents = (row) => {
-        Axios.get("http://localhost:5000/api/admin/student_list", {
+        Axios.get("https://mathflix.herokuapp.com/api/admin/student_list", {
             params: {
                 id: row.id
             }

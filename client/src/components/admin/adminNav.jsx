@@ -108,9 +108,14 @@ export default function AdminNav(props) {
     navigate("/admin/profile");
   }
 
+  const setPassword = () => {
+    setAnchorElUser(null);
+    navigate("/admin/settings")
+  }
+
   const userLogout = () => {
     setAnchorElUser(null);
-    Axios.delete("http://localhost:5000/logout").then((response)=> {
+    Axios.delete("https://mathflix.herokuapp.com/logout").then((response)=> {
       if(response){
         navigate("/", {replace: true})
       }
@@ -213,6 +218,10 @@ export default function AdminNav(props) {
             >
               <MenuItem  onClick={userProfile}>
                 <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+
+              <MenuItem  onClick={setPassword}>
+                <Typography textAlign="center">Settings</Typography>
               </MenuItem>
 
               <MenuItem  onClick={userLogout}>
