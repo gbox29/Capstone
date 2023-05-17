@@ -10,8 +10,8 @@ const DB = {
 
 //bf49c8840bc699:c78727cb@us-cdbr-east-06.cleardb.net/heroku_cbe447dd6f94384?reconnect=true
 
-//const connection = mysql.createPool(DB);
-const connection = mysql.createConnection(DB);
+const connection = mysql.createPool(DB);
+//const connection = mysql.createConnection(DB);
 
 connection.on('error', (error) => {
   console.error('Database error:', error);

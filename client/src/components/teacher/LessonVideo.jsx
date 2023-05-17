@@ -40,8 +40,8 @@ export default function LessonVideo(){
     //console.log(nextVid);
 
     const [queryCount, setQueryCount] = useState(0);
+    const MAX_QUERIES = 10
     
-    const [numReaction, setNumReaction] = useState(0);
     //rate or comment chapter
     const userComment = () => {
         Axios.post("https://mathflix.herokuapp.com/api/user/rateChapter", {
@@ -54,7 +54,7 @@ export default function LessonVideo(){
                 setReaction("");
                 setValue(0);
                 setFetchReaction(prevState => [...prevState, response.data]); // update fetchReaction state with new comment
-                setNumReaction(numReaction+1);
+                document.location.reload(true);
             }
           });
     }
@@ -78,21 +78,27 @@ export default function LessonVideo(){
 
     //fetch all user ratings and comments
     useEffect(() => {
-        Axios.get("https://mathflix.herokuapp.com/api/user/fetchUserRatings", {
+        const fetchUserRating = () => {
+            Axios.get("https://mathflix.herokuapp.com/api/user/fetchUserRatings", {
             params: {
                 chapter_id : chapterIdRef.current,
               }            
-        }).then((response) => {
-            if(!response.data.message) {
-                setTotalRate(response.data.totalRate);
-                setStarsPercentage(response.data.ratingPercentageTwo)
-                setStars(response.data.ratingPercentages);
-                setFetchReaction(response.data.result);             
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
-    });
+            }).then((response) => {
+                if(!response.data.message) {
+                    setTotalRate(response.data.totalRate);
+                    setStarsPercentage(response.data.ratingPercentageTwo)
+                    setStars(response.data.ratingPercentages);
+                    setFetchReaction(response.data.result);             
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+        if (queryCount < MAX_QUERIES) {
+            fetchUserRating();
+            setQueryCount(queryCount + 1);
+        }
+    },[queryCount]);
 
 
     //fetch all chapters in lesson for next video navigation
@@ -114,7 +120,6 @@ export default function LessonVideo(){
             setQueryCount(queryCount + 1);
         }
     }, [queryCount]);
-    const MAX_QUERIES = 10
 
       //automatic update the stars of the chapters everytime the user insert or update the comment
       const chapterRating = useCallback(() => {

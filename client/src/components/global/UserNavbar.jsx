@@ -69,9 +69,15 @@ function MyAppBar() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const HandleCourseMenu = () => {
     setAnchorElNav(null);
+    navigate("/");
   };
+
+  const handleGamesMenu = () => {
+    setAnchorElNav(null);
+    navigate("/games/games-list");
+  }
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -202,15 +208,15 @@ function MyAppBar() {
         <List>
         <ListItemButton>
               <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 1, color: 'black', display: 'block' }}
+                onClick={HandleCourseMenu}
+                sx={{ my: 1, color: 'black', display: 'block', paddingRight: '100%' }}
               > Courses
               </Button>
         </ListItemButton>
         <ListItemButton onClick={handleDrawerClose}>
               <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 1, color: 'black', display: 'block' }}
+                onClick={handleGamesMenu}
+                sx={{ my: 1, color: 'black', display: 'block', paddingRight: '100%' }}
               > Games
               </Button>
           </ListItemButton>

@@ -22,6 +22,7 @@ export default function LessonVideoRec (props) {
                     year: props.year,
                     lessonId : props.lessonId
                 }});
+        document.location.reload(true);  
     }
 
     return (
