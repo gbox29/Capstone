@@ -898,7 +898,6 @@ app.delete("/api/user/userRemove", (req,res)=> {
   const user_id = req.query.user_id;
   const lessonId = req.query.lessonId;
 
-  console.log(lessonId)
   if(req.session.user) {
     const statement = "DELETE FROM tb_enroll WHERE user_id = ? and lesson_id = ?";
     database.query(statement,[user_id,lessonId], (err,result)=>{
@@ -907,7 +906,6 @@ app.delete("/api/user/userRemove", (req,res)=> {
       } else {
         res.send({message: 'Deleted Succesfully'});
       }
-      
     });
   }
 });

@@ -16,7 +16,7 @@ export default function BasicTable(props) {
   const removeUser = (studentId) => {
     const result = window.confirm('Do you want to continue?');
     if (result) {
-      Axios.delete("https://mathflix.herokuapp.com/user/userRemove", {
+      Axios.delete("https://mathflix.herokuapp.com/api/user/userRemove", {
         params: {
           user_id : studentId,
           lessonId : props.lessonId
@@ -24,6 +24,7 @@ export default function BasicTable(props) {
       }).then((response) => {
           alert(response.data.message);
           props.setExpandStudentListDiv(false);
+          document.location.reload(true);
       })
     } else {
       console.log('User clicked Cancel');

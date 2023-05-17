@@ -92,7 +92,7 @@ export default function LessonVideo(){
         }).catch((error) => {
             console.log(error);
         });
-    },[numReaction]);
+    });
 
 
     //fetch all chapters in lesson for next video navigation

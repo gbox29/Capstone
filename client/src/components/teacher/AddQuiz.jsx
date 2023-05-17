@@ -82,6 +82,7 @@ export default function AddQuiz() {
                 setNumber(number+1);
                 //setFetchQuestion(prevState => [...prevState, response.data]);
                 setFetchQuestion(prevState => [...(prevState || []), response.data]); // update fetchQuestion state with new question
+                document.location.reload(true);
             }
           });
     }
@@ -105,6 +106,7 @@ export default function AddQuiz() {
             setOptionD("");
             setAnswer("")
             alert(response.data.message);
+            document.location.reload(true);
         }).catch((error) => {
             console.log(error);
         })
@@ -119,6 +121,7 @@ export default function AddQuiz() {
               }
             }).then((response) => {
                 alert(response.data.message);
+                document.location.reload(true);
             })
         } else {
             console.log('User clicked Cancel');

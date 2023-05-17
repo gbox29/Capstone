@@ -69,7 +69,10 @@ export default function EnrollStudentModal(props){
                 </div>
                 <div className="student-list-btn-modal">
                     <Button variant="outlined"
-                    onClick={props.skip}
+                    onClick={() => {
+                      // props.skip
+                      document.location.reload(true);
+                    }}
                     >
                         Skip
                     </Button>

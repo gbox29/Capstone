@@ -55,6 +55,7 @@ export default function AcSummary(props={}){
           }
         }).then((response) => {
             alert(response.data.message);
+            document.location.reload(true);
         })
       } else {
         console.log('User clicked Cancel');

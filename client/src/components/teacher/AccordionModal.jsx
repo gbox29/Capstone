@@ -32,6 +32,7 @@ export default function AccordionModal(props){
             .then((response) => {
                 alert(response.data.message);
                 props.setChapter(prevState => [...prevState, response.data]);
+                document.location.reload(true);
             }).finally(() => {
                 props.setLoading(false);
             });
@@ -49,6 +50,7 @@ export default function AccordionModal(props){
             .then((response) => {
                 if(response.data.result) {
                     alert(response.data.result);
+                    document.location.reload(true);
                 }
             }).catch((error) => {
                 console.log(error);

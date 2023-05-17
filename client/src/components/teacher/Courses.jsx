@@ -67,7 +67,6 @@ export default function Courses(){
                   return [response.data];
                 }
               });
-              
         }).catch((error) => {
             console.log(error);
         });
@@ -84,7 +83,7 @@ export default function Courses(){
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
         getResult();
-    },[]);
+    }, []);
 
     useEffect(() => {
         const getStudentEnrolled = () => {
@@ -146,7 +145,10 @@ export default function Courses(){
             </div>
             {modal && (
             <div className="modal">
-                <div onClick={toggleModal} className="overlay"></div>
+                <div onClick={() => {
+                    toggleModal();
+                    document.location.reload(true);
+                }} className="overlay"></div>
                 <div className="modal-content" >
                     <div className="modal-wrap" style={nextModal === true ? {display: 'none'} : null}>
                         <h2>Create a Lesson</h2>
@@ -167,7 +169,7 @@ export default function Courses(){
                             />
                         </form>
 
-                        <button className="close-modal" onClick={toggleModal}>
+                        <button className="close-modal" onClick={(toggleModal)}>
                             CLOSE
                         </button>
                     

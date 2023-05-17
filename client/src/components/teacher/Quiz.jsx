@@ -41,6 +41,7 @@ export default function Quiz(props){
                 props.setAnswer("");
                 props.setQuizId("");
                 props.setClickUpdate(!props.clickUpdate);
+                document.location.reload(true);
             })
         } else {
             console.log('User clicked Cancel');

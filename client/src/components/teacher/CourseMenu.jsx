@@ -54,6 +54,7 @@ export default function CourseMenu(props){
         }).then((response) => {
           if(response) {
             alert("Deleted Succesfully");
+            document.location.reload(true);
           }
         }).catch((error) => {
           console.log(error);
