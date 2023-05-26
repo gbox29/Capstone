@@ -38,7 +38,7 @@ const { error } = require('console');
 
 app.use(express.json());
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: ['https://mathflix.netlify.app', 'http://localhost:3000'],
   credentials: true,
 };
 
@@ -49,23 +49,34 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.enable('trust proxy', 1);
 app.use(session({
-  secret: 'your-secret-key',
   resave: false,
-  saveUninitialized: true,
-  proxy: true,
-  name: 'mathflixcookiename',
+  saveUninitialized: false,
+  secret: "sessionss",
   cookie: {
     sameSite: 'none',
     secure: true,
-    httpOnly: false
+    httpOnly: false,
   }
 }));
+
+// app.use(session({
+//   secret: 'your-secret-key',
+//   resave: false,
+//   saveUninitialized: true,
+//   proxy: true,
+//   name: 'mathflixcookiename',
+//   cookie: {
+//     sameSite: 'none',
+//     secure: true,
+//     httpOnly: false,
+//   }
+// }));
 
 
 let lessonId = 0;
 let userId = 0;
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-let gmail = "";
+// let gmail = "";
 
 
 app.post("/api/register", (req, res) => {
@@ -101,17 +112,23 @@ app.post("/api/register", (req, res) => {
 
 
 app.get("/api/login", (req,res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  // res.setHeader('Access-Control-Allow-Origin', 'CORS_ORIGIN=http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
+  // res.setHeader('Access-Control-Allow-Origin', 'https://voluble-starship-e0e6b0.netlify.app');
+  // // res.setHeader('Access-Control-Allow-Origin', 'CORS_ORIGIN=http://localhost:3000');
+  // res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  // res.setHeader('Access-Control-Allow-Credentials', true);
   if (req.session.user) {
     userId = req.session.user[0].id
     //console.log("userId" + userId);
     res.send({ loggedIn: true, user: req.session.user });
   } else {
     res.send({ loggedIn: false, user:req.session.user });
+  }
+});
+
+app.get("/api/getUserId", (req,res) => {
+  if (req.session.user) {
+    res.send({user:req.session.user});
   }
 });
 
@@ -164,8 +181,9 @@ app.post('/api/login', (req, res) => {
   }
 });
 
-app.post("/api/forgotPassword", (req, res) => {
-  gmail = req.body.gmail;
+app.post("/api/forgotPassword", (req, res) => { // to be fix done
+  const gmail = req.body.gmail;
+  const resetPasswordLink = `https://mathflix.herokuapp.com/api/resetPassword/${gmail}`;
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -178,8 +196,8 @@ app.post("/api/forgotPassword", (req, res) => {
     from: EMAIL,
     to: gmail,
     subject: 'Password Reset Request',
-    text: 'You have requested a password reset. Please click the following link to reset your password: http://localhost:3000/resetPassword',
-    html: '<p>You have requested a password reset. Please click the following link to reset your password:</p><p><a href="http://localhost:3000/auth/resetSuccess">http://localhost:3000auth/resetSuccess</a></p>'
+    text: `You have requested a password reset. Please click the following link to reset your password: ${resetPasswordLink}`,
+    html: `<p>You have requested a password reset. Please click the following link to reset your password:</p><p><a href=${resetPasswordLink}>Click Here</a></p>`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -193,29 +211,10 @@ app.post("/api/forgotPassword", (req, res) => {
   });
 });
 
-app.put("/api/ResetPassword", (req,res) => {
-  let password = 0;
-  if(userId > 0) {
-    password = req.body.password;
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-      if (err) {
-        console.log(err);
-      }
-      const statement = "UPDATE user SET password = ? WHERE id = ?";
-      database.query(
-        statement,
-        [hash,userId],
-        (err, result) => {
-          if (err){
-            res.send({err:err}); 
-          }else{
-            res.send("1 Row Updated!");
-          }
-        }
-      );
-    });
-  } else {
-    password = "123";
+app.get("/api/resetPassword/:gmail", (req,res) => { // to be fix done
+    const gmail = req.params.gmail;
+    console.log("the gmail for restpassword is: ", gmail);
+    let password = "123";
     bcrypt.hash(password, saltRounds, (err, hash) => {
       if (err) {
         console.log(err);
@@ -233,11 +232,12 @@ app.put("/api/ResetPassword", (req,res) => {
         }
       );
     });
-  }
 });
 
-app.put("/api/settingsResetPassword", (req,res) => {
+app.put("/api/settingsResetPassword", (req,res) => { //to be fix done
   pass = req.body.password
+  const user_id = req.body.userId;
+  console.log("user_id settings reset password: ", user_id);
   if(req.session.user) {
     bcrypt.hash(pass, saltRounds, (err, hash) => {
       console.log(hash);
@@ -247,7 +247,7 @@ app.put("/api/settingsResetPassword", (req,res) => {
       const statement = "UPDATE user SET password = ? WHERE id = ?";
       database.query(
         statement,
-        [hash,userId],
+        [hash,user_id],
         (err, result) => {
           if (err){
             console.log(err);
@@ -267,9 +267,10 @@ app.put("/api/settingsResetPassword", (req,res) => {
   Teacher side
 */
 
-app.post("/api/user/createLesson", (req,res) => {
+app.post("/api/user/createLesson", (req,res) => { //to be fix done
   const lesson = req.body.lesson;
   const glevel = req.body.glevel;
+  const user_id = req.body.userId
   const date = new Date();
 
   if (req.session.user) {
@@ -286,7 +287,7 @@ app.post("/api/user/createLesson", (req,res) => {
             (error,results) => {
               if(results.length > 0){
                   lessonId = results[0].id;
-                  createLesson(lessonId,userId);
+                  createLesson(lessonId,user_id);
                   res.send({message: "Lesson Created Succesfully", lessonId});
               }
             }
@@ -299,9 +300,9 @@ app.post("/api/user/createLesson", (req,res) => {
 });
 
 
-const createLesson = (lessonId, userId) => {
+const createLesson = (lessonId, user_id) => { // to be fix done
   const statement = "INSERT INTO tb_createlesson (lesson_id,user_id) VALUES (?,?)";
-  database.query(statement,[lessonId,userId],(err,res)=>{
+  database.query(statement,[lessonId,user_id],(err,res)=>{
     if(err){
       console.log(err);
     }else{
@@ -310,10 +311,11 @@ const createLesson = (lessonId, userId) => {
   })
 }
 
-app.get("/api/user/fetchLesson", (req,res) => {
+app.get("/api/user/fetchLesson", (req,res) => { // to be fix done
+  const user_id = req.query.userId
   const fetchLesson = (cb, database) => {
     const statement = "SELECT * FROM view_createlesson WHERE user_id = ?";
-    database.query(statement, userId, (err,result) => {
+    database.query(statement, user_id, (err,result) => {
       if(err){
         cb(err);
       } else {
@@ -479,7 +481,9 @@ app.post("/api/user/enrollStudent", (req,res) => {
   }
 })
 
-app.get("/api/user/studentEnrolled", (req,res) => {
+app.get("/api/user/studentEnrolled", (req,res) => { //to be fix done
+  const userId = req.query.userId;
+  console.log("/api/user/studentEnrolled: ", userId);
   if(req.session.user) {
     const statement = "SELECT * FROM user_enrolled WHERE user_id = ?";
     database.query(statement, userId, (err,result) => {
@@ -498,10 +502,11 @@ app.get("/api/user/studentEnrolled", (req,res) => {
   }
 });
 
-app.post("/api/user/rateChapter", (req,res) => {
+app.post("/api/user/rateChapter", (req,res) => { // to be fix done
     const chapter_id = req.body.chapter_id;
     const comment = req.body.comment;
     const rating = req.body.rating;
+    const user_id = req.body.userId;
     const d = new Date();
     const currentMonth = d.getMonth();	// Month	[mm]	(1 - 12)
     let day = d.getDate();		// Day		[dd]	(1 - 31)
@@ -510,7 +515,7 @@ app.post("/api/user/rateChapter", (req,res) => {
     //console.log(chapter_id, + " " + userId + " " + rating + " " + date);
     if(req.session.user){
       const statement = "INSERT INTO tb_rate (chapter_id, user_id, comment, rate, month, day, year) VALUES (?,?,?,?,?,?,?)"
-      database.query(statement,[chapter_id,userId,comment,rating,currentMonth, day, year], (err, result) => {
+      database.query(statement,[chapter_id,user_id,comment,rating,currentMonth, day, year], (err, result) => {
         if(err) {
           console.log(err);
         } else {
@@ -636,47 +641,39 @@ app.put("/api/user/editChapter", (req,res) => {
   }
 });
 
-app.delete("/api/user/deleteComment", (req, res) => {
+app.delete("/api/user/deleteComment", (req, res) => { // to be fix done
   const ratingId = req.query.ratingId;
   const user_id = req.query.user_id;
   
   if (req.session.user) {
-    if (user_id == userId) { // using double equal sign for loose equality comparison
       const statement = "DELETE FROM tb_rate WHERE id = ? and user_id = ?";
-      database.query(statement, [ratingId, userId], (err, result) => {
+      database.query(statement, [ratingId, user_id], (err, result) => {
         if (err) {
           res.send({ message: err })
         } else {
           res.send({ message: 'Deleted successfully' });
         }
       });
-    } else {
-      res.send({ message: "You can't delete this comment" });
-    }
   } else {
     res.send({ message: "User must login" });
   }
 });
 
-app.put("/api/user/updateComment", (req,res) => {
+app.put("/api/user/updateComment", (req,res) => { // to be fix done
   const newComment = req.body.newComment;
   const newRating = req.body.newRating;
   const commentId = req.body.commentId;
   const user_id = req.body.user_id;
   //console.log(user_id);
   if(req.session.user) {
-    if(user_id === userId) {
       const statement = "UPDATE tb_rate SET comment = ?, rate = ? WHERE id = ? and user_id = ?";
-      database.query(statement, [newComment,newRating,commentId,userId], (err,result) => {
+      database.query(statement, [newComment,newRating,commentId,user_id], (err,result) => {
         if(err) { 
           console.log(err);
         } else {
           res.send({message: "Updated Succesfully"});
         }
       })
-    } else {
-        res.send({message: "You cant update this comment"});
-    }
   } else {
     res.send({ message: "User must login" });
   }
@@ -731,8 +728,9 @@ app.get("/api/user/fetchQuiz", (req,res) => {
 });
 
 
-app.post("/api/user/takeQuiz", (req,res) => {
+app.post("/api/user/takeQuiz", (req,res) => { // to be fix done
     const chapterId = req.body.chapterId;
+    const user_id = req.body.userId;
     const d = new Date();
     const currentMonth = d.getMonth();	// Month	[mm]	(1 - 12)
     let day = d.getDate();		// Day		[dd]	(1 - 31)
@@ -741,7 +739,7 @@ app.post("/api/user/takeQuiz", (req,res) => {
 
     if(req.session.user) {
       const statement = "INSERT INTO tb_takequiz (user_id,chapter_id,month,day,year) VALUES (?,?,?,?,?)";
-      database.query(statement,[userId,chapterId,currentMonth,day,year],(err,result)=>{
+      database.query(statement,[user_id,chapterId,currentMonth,day,year],(err,result)=>{
         if(err){
           console.log(err)
         }else{
@@ -1011,11 +1009,12 @@ app.get("/api/user/fetchUserAllQuizzes",(req,res) => {
 });
 
 
-//profile
-app.get("/api/user/profile", (req,res) => {
+//profile 
+app.get("/api/user/profile", (req,res) => { //edited
+  const user_id = req.query.userId;
   if(req.session.user){
     const statement = "SELECT * FROM user_profile WHERE id = ?";
-    database.query(statement,[userId], (err, result) => {
+    database.query(statement,[user_id], (err, result) => {
       if(err) {
         console.log(err);
       }
@@ -1034,6 +1033,7 @@ app.post("/api/user/uploadProfile", upload.single('image'), (req,res)=>{ //done
     const firstname = req.body.fname;
     const lastname = req.body.lname;
     const gender = req.body.gender;
+    const user_id = req.body.userId;
 
     if(req.session.user) {
       cloudinary.uploader.upload(req.file.path, (error, result) => {
@@ -1043,7 +1043,7 @@ app.post("/api/user/uploadProfile", upload.single('image'), (req,res)=>{ //done
           } else {
             const file = result.secure_url;
               const statement = "INSERT into profile (user_id,firstname,lastname,gender,pic) VALUES (?,?,?,?,?)";
-              database.query(statement,[userId,firstname,lastname,gender,file], (err,result) => {
+              database.query(statement,[user_id,firstname,lastname,gender,file], (err,result) => {
                 try {
                   if(err){
                     console.log(err);
@@ -1069,10 +1069,7 @@ app.post("/api/user/uploadProfile", upload.single('image'), (req,res)=>{ //done
 
 
 app.put("/api/user/editProfile", upload.single('image'), (req,res)=>{ //done
-  const firstname = req.body.fname;
-  const lastname = req.body.lname;
-  const gender = req.body.gender;
-
+  const user_id = req.body.userId;
   if(req.session.user){
     cloudinary.uploader.upload(req.file.path, (error, result) => { 
       try {
@@ -1080,8 +1077,8 @@ app.put("/api/user/editProfile", upload.single('image'), (req,res)=>{ //done
           console.log(error);
         } else {
           const file = result.secure_url;
-          const statement = "UPDATE profile SET firstname = ? , lastname = ?, gender = ?, pic = ? WHERE user_id = ?";
-          database.query(statement,[firstname,lastname,gender,file,userId], (err,result) => {
+          const statement = "UPDATE profile SET pic = ? WHERE user_id = ?";
+          database.query(statement,[file,user_id], (err,result) => {
             try {
               if(err){
                 console.log(err);
@@ -1106,12 +1103,12 @@ app.put("/api/user/editProfile", upload.single('image'), (req,res)=>{ //done
 
 
 //new additional
-app.get("/api/user/finishQuiz", (req,res) => {
+app.get("/api/user/finishQuiz", (req,res) => { // to be fix done
   const chapterId = req.query.chapterId;
-
+  const user_id = req.query.userId;
   if(req.session.user) {
     const statement = "SELECT * FROM tb_takequiz WHERE user_id = ? AND chapter_id = ?";
-    database.query(statement, [userId,chapterId], (err, result) => {
+    database.query(statement, [user_id,chapterId], (err, result) => {
       if (err) {
         console.log(err);
       }
@@ -1126,10 +1123,10 @@ app.get("/api/user/finishQuiz", (req,res) => {
 
 
 // ADMIN BACKEND
-app.get("/api/admin/user_records", (req, res) => {
+app.get("/api/admin/user_records", (req, res) => { // to be fix done
   if(req.session.user){
     const statement = "SELECT * FROM profile JOIN user ON profile.user_id = user.id";
-      database.query(statement, userId, (err, result) => {
+      database.query(statement, (err, result) => {
         if (err) {
           console.log(err);
         }
